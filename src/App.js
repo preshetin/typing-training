@@ -5,8 +5,20 @@ import './App.css';
 // const TRAINING_STRING = "ппп ррр ппп ррр";
 const TRAINING_STRING = "fff jjj fff jjj";
 
-const Char = (props) => {
-  return <code>{props.char.symbol}</code>;
+const Character = (props) => {
+  return <code>{props.symbol}</code>;
+}
+
+const IncorrectCharacter = (props) => {
+  return <code style={{ backgroundColor: "red" }}>{props.symbol}</code>;
+}
+
+const CorrectCharacter = (props) => {
+  return <code style={{ color: "blue" }}>{props.symbol}</code>;
+}
+
+const CurrentCharacter = (props) => {
+  return <code style={{ backgroundColor: "blue", color: "white" }}>{props.symbol}</code>;
 }
 
 class App extends Component {
@@ -21,12 +33,14 @@ class App extends Component {
 
   keyPressed(event){
     const symbol = event.key;
+    let st = this.state;
     if (symbol === this.state.chars[this.state.currentIndex].symbol) {
       console.log(symbol, this.state.chars[this.state.currentIndex].symbol, "correct");
+      st.chars[st.currentIndex].isCorrect = true;
     } else {
       console.log(symbol, this.state.chars[this.state.currentIndex].symbol, "wrong");
+      st.chars[st.currentIndex].isCorrect = false;
     }
-    let st = this.state;
     st.currentIndex++;
     this.setState(st);
   }
@@ -36,7 +50,7 @@ class App extends Component {
     const chars = [];
     TRAINING_STRING.split('').forEach(symbol => chars.push({
       symbol,
-      isTyped: null
+      isCorrect: null
     }));
     let st = this.state;
     st.chars = chars;
@@ -55,7 +69,16 @@ class App extends Component {
         </header>
         <p className="App-intro">
           <br />
-          {this.state.chars.map((char, index) => <Char key={index} char={char} />)}
+      {this.state.chars.map((char, index) => {
+        switch (char.isCorrect) {
+          case true:
+            return <CorrectCharacter key={index} symbol={char.symbol} />
+          case false:
+            return <IncorrectCharacter key={index} symbol={char.symbol} />
+          case null:
+            return (index === this.state.currentIndex) ? <CurrentCharacter key={index} symbol={char.symbol} /> : <Character key={index} symbol={char.symbol} />
+        }
+      })}
         </p>
       </div>
     );
