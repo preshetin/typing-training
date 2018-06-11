@@ -33,6 +33,18 @@ class App extends Component {
 
   keyPressed(event){
     const symbol = event.key;
+    if (symbol === "Backspace") {
+      let st = this.state;
+        if (st.currentIndex > 0) {
+          st.currentIndex--;
+          st.chars[st.currentIndex].isCorrect = null;
+        }
+      this.setState(st);
+      return;
+    }
+    if (symbol.length !== 1) {
+      return;
+    }
     let st = this.state;
     if (symbol === this.state.chars[this.state.currentIndex].symbol) {
       console.log(symbol, this.state.chars[this.state.currentIndex].symbol, "correct");
