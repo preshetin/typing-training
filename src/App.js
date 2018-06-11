@@ -2,22 +2,29 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+// const TRAINING_STRING = "ппп ррр ппп ррр";
+const TRAINING_STRING = "fff jjj fff jjj";
+
+const Char = (props) => {
+  return <code>{props.char.symbol}</code>;
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      trainingString: "fff ddd fff ddd",
+      chars: [],
       currentIndex: 0
     }
     this.keyPressed = this.keyPressed.bind(this);
   }
 
   keyPressed(event){
-    const char = event.key;
-    if (char === this.state.trainingString[this.state.currentIndex]) {
-      console.log(char, "correct");
+    const symbol = event.key;
+    if (symbol === this.state.chars[this.state.currentIndex].symbol) {
+      console.log(symbol, this.state.chars[this.state.currentIndex].symbol, "correct");
     } else {
-      console.log(char, "wrong");
+      console.log(symbol, this.state.chars[this.state.currentIndex].symbol, "wrong");
     }
     let st = this.state;
     st.currentIndex++;
@@ -26,6 +33,14 @@ class App extends Component {
 
   componentDidMount(){
     document.addEventListener("keydown", this.keyPressed, false);
+    const chars = [];
+    TRAINING_STRING.split('').forEach(symbol => chars.push({
+      symbol,
+      isTyped: null
+    }));
+    let st = this.state;
+    st.chars = chars;
+    this.setState(st);
   }
   componentWillUnmount(){
     document.removeEventListener("keydown", this.keyPressed, false);
@@ -39,7 +54,8 @@ class App extends Component {
           <h1 className="App-title">Typing Training</h1>
         </header>
         <p className="App-intro">
-          <code>{this.state.trainingString}</code>
+          <br />
+          {this.state.chars.map((char, index) => <Char key={index} char={char} />)}
         </p>
       </div>
     );
