@@ -6,16 +6,16 @@ const TRAINING_STRING = "ппп ррр ппп ррр";
 //const TRAINING_STRING = "fff jjj fff jjj";
 
 const Character = (props) => {
-  return <code style={{ fontSize: "300%" }}>{props.symbol}</code>;
+  return <div style={{ fontFamily: "'Roboto Mono', monospace", display: "inline", fontSize: "300%" }}>{props.symbol}</div>;
 }
 
 
 const CorrectCharacter = (props) => {
-  return <code style={{ fontSize: "300%", color: "blue" }}>{props.symbol}</code>;
+  return <div style={{  fontFamily: "'Roboto Mono', monospace", display: "inline", fontSize: "300%", color: "blue" }}>{props.symbol}</div>;
 }
 
 const CurrentCharacter = (props) => {
-  return <code style={{  fontSize: "300%", backgroundColor: "blue", color: "white" }}>{props.symbol}</code>;
+  return <div style={{  fontFamily: "'Roboto Mono', monospace", display: "inline",  fontSize: "300%", backgroundColor: "blue", color: "white" }}>{props.symbol}</div>;
 }
 
 class App extends Component {
