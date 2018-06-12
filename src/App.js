@@ -2,20 +2,20 @@ import React, { Component } from 'react';
 import IncorrectCharacter from './IncorrectCharacter';
 import './App.css';
 
-// const TRAINING_STRING = "ппп ррр ппп ррр";
-const TRAINING_STRING = "fff jjj fff jjj";
+const TRAINING_STRING = "ппп ррр ппп ррр";
+//const TRAINING_STRING = "fff jjj fff jjj";
 
 const Character = (props) => {
-  return <code>{props.symbol}</code>;
+  return <code style={{ fontSize: "300%" }}>{props.symbol}</code>;
 }
 
 
 const CorrectCharacter = (props) => {
-  return <code style={{ color: "blue" }}>{props.symbol}</code>;
+  return <code style={{ fontSize: "300%", color: "blue" }}>{props.symbol}</code>;
 }
 
 const CurrentCharacter = (props) => {
-  return <code style={{ backgroundColor: "blue", color: "white" }}>{props.symbol}</code>;
+  return <code style={{  fontSize: "300%", backgroundColor: "blue", color: "white" }}>{props.symbol}</code>;
 }
 
 class App extends Component {
