@@ -56,12 +56,13 @@ class App extends Component {
     if (symbol.length !== 1) {
       return;
     }
+    if (this.state.currentIndex > 0 && this.state.chars[this.state.currentIndex - 1].isCorrect == false) {
+     return; 
+    }
     let st = this.state;
     if (symbol === this.state.chars[this.state.currentIndex].symbol) {
-      console.log(symbol, this.state.chars[this.state.currentIndex].symbol, "correct");
       st.chars[st.currentIndex].isCorrect = true;
     } else {
-      console.log(symbol, this.state.chars[this.state.currentIndex].symbol, "wrong");
       st.chars[st.currentIndex].isCorrect = false;
     }
     st.currentIndex++;

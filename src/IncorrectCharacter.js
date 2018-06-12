@@ -11,7 +11,7 @@ class IncorrectCharacter extends React.Component {
   componentDidMount() {
     setTimeout(() => {
       this.setState({ visible: false });
-    }, 400)
+    }, 200)
    }
   
   render() {
