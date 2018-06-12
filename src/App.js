@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import IncorrectCharacter from './IncorrectCharacter';
 import './App.css';
 
 // const TRAINING_STRING = "ппп ррр ппп ррр";
@@ -9,9 +9,6 @@ const Character = (props) => {
   return <code>{props.symbol}</code>;
 }
 
-const IncorrectCharacter = (props) => {
-  return <code style={{ backgroundColor: "red" }}>{props.symbol}</code>;
-}
 
 const CorrectCharacter = (props) => {
   return <code style={{ color: "blue" }}>{props.symbol}</code>;
@@ -25,8 +22,22 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      chars: [],
-      currentIndex: 0
+      chars: [
+/*        {
+          symbol: "f",
+          isCorrect: true
+        },
+        {
+          symbol: "f",
+          isCorrect: false
+        },
+        {
+          symbol: "f",
+          isCorrect: null
+        }*/
+      ],
+      currentIndex: 0,
+      currentSymbol: ""
     }
     this.keyPressed = this.keyPressed.bind(this);
   }
@@ -54,6 +65,7 @@ class App extends Component {
       st.chars[st.currentIndex].isCorrect = false;
     }
     st.currentIndex++;
+    st.currentSymbol = symbol;
     this.setState(st);
   }
 
@@ -76,22 +88,19 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Typing Training</h1>
         </header>
-        <p className="App-intro">
           <br />
       {this.state.chars.map((char, index) => {
         switch (char.isCorrect) {
           case true:
             return <CorrectCharacter key={index} symbol={char.symbol} />
           case false:
-            return <IncorrectCharacter key={index} symbol={char.symbol} />
+            return <IncorrectCharacter key={index} symbol={char.symbol} incorrectSymbol={this.state.currentSymbol}/>
           case null:
             return (index === this.state.currentIndex) ? <CurrentCharacter key={index} symbol={char.symbol} /> : <Character key={index} symbol={char.symbol} />
         }
       })}
-        </p>
       </div>
     );
   }
