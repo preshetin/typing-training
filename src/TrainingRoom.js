@@ -17,7 +17,7 @@ function TrainingRoom(props) {
     <div>
       <Grid container justify="center" style={{ margin: "20px" }} spacing={24}>
         <Grid item xs={8}>  
-          <Card>
+          <Card style={{ paddingBottom: "30px" }}>
             <CardContent>
               <TrainingScene />
             </CardContent>
