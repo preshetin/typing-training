@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
-import TrainingScene from './TrainingScene';
+import React, { Component, Fragment } from 'react';
+import TrainingRoom from './TrainingRoom';
+import Header from './Layouts/Header';
+import Footer from './Layouts/Footer';
 import './App.css';
 
 class App extends Component {
@@ -9,13 +11,11 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Typing Training</h1>
-        </header>
-          <br />
-      <TrainingScene />
-      </div>
+      <Fragment>
+        <Header />
+        <TrainingRoom />
+        <Footer />
+      </Fragment>
     );
   }
 }
