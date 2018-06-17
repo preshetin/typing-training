@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './Keyboard.css';
 
-export default class Keyboard extends Component {
+class Keyboard extends Component {
   render() {
     return (
 <div id="container">
@@ -65,3 +65,5 @@ export default class Keyboard extends Component {
     )
   }
 }
+
+export default Keyboard; 

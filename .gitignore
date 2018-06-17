@@ -12,6 +12,7 @@
 
 # misc
 *.swp
+tags
 .DS_Store
 .env.local
 .env.development.local
