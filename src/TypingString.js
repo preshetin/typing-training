@@ -15,7 +15,9 @@ const CurrentCharacter = (props) => {
 }
 
 function TypingString(props) {
-  return props.chars.map((char, index) => {
+  return (
+    <React.Fragment>
+      {props.chars.map((char, index) => {
       switch (char.isCorrect) {
         case true:
           return <CorrectCharacter key={index} symbol={char.symbol} />
@@ -24,7 +26,10 @@ function TypingString(props) {
         case null:
           return (index === props.currentIndex) ? <CurrentCharacter key={index} symbol={char.symbol} /> : <Character key={index} symbol={char.symbol} />
       }
-    });
+    })} 
+    <br />
+  </React.Fragment>
+  );
 }
 
 export default TypingString;

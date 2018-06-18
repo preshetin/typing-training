@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TypingString from './TypingString';
+import TypingStrings from './TypingStrings';
 import Keyboard from './Keyboard';
+import { getCharByGlobalIndex, getArrayIndexByGlobalIndex, getStringIndexByGlobalIndex } from './arrayConverter.js';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -10,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 
-const TRAINING_STRING = "ппп ррр ппп ррр";
+//const TRAINING_STRING = "ппп ррр ппп ррр";
 //const TRAINING_STRING = "fff jjj fff jjj";
 //const TRAINING_STRING = ["fff jjj fff jjj", "ffj ffj jjf jjf", "jfj jfj fjf fjf"];
 
@@ -20,20 +21,18 @@ class TrainingRoom extends React.Component {
     super(props);
     this.state = {
       chars: [
-/*        {
-          symbol: "f",
-          isCorrect: true
-        },
-        {
-          symbol: "f",
-          isCorrect: false
-        },
-        {
-          symbol: "f",
-          isCorrect: null
-        }*/
+        [
+          { symbol: "f", isCorrect: true },
+          { symbol: "f", isCorrect: true },
+          { symbol: "f", isCorrect: true }
+        ],
+        [
+          { symbol: "j", isCorrect: null },
+          { symbol: "j", isCorrect: null },
+          { symbol: "j", isCorrect: null }
+        ],
       ],
-      currentIndex: 0,
+      currentIndex: 4,
       currentSymbol: ""
     }
     this.keyPressed = this.keyPressed.bind(this);
@@ -45,7 +44,7 @@ class TrainingRoom extends React.Component {
       let st = this.state;
         if (st.currentIndex > 0) {
           st.currentIndex--;
-          st.chars[st.currentIndex].isCorrect = null;
+          st.chars[getArrayIndexByGlobalIndex(this.state.chars, this.state.currentIndex)][getStringIndexByGlobalIndex(this.state.chars, this.state.currentIndex)].isCorrect = null;
         }
       this.setState(st);
       return;
@@ -53,14 +52,14 @@ class TrainingRoom extends React.Component {
     if (symbol.length !== 1) {
       return;
     }
-    if (this.state.currentIndex > 0 && this.state.chars[this.state.currentIndex - 1].isCorrect == false) {
-     return; 
+    if (this.state.currentIndex > 0 && getCharByGlobalIndex(this.state.chars, this.state.currentIndex - 1).isCorrect === false) {
+      return; 
     }
     let st = this.state;
-    if (symbol === this.state.chars[this.state.currentIndex].symbol) {
-      st.chars[st.currentIndex].isCorrect = true;
+    if (symbol === getCharByGlobalIndex(this.state.chars, this.state.currentIndex).symbol) {
+      st.chars[getArrayIndexByGlobalIndex(this.state.chars, this.state.currentIndex)][getStringIndexByGlobalIndex(this.state.chars, this.state.currentIndex)].isCorrect = true;
     } else {
-      st.chars[st.currentIndex].isCorrect = false;
+      st.chars[getArrayIndexByGlobalIndex(this.state.chars, this.state.currentIndex)][getStringIndexByGlobalIndex(this.state.chars, this.state.currentIndex)].isCorrect = false;
     }
     st.currentIndex++;
     st.currentSymbol = symbol;
@@ -70,13 +69,13 @@ class TrainingRoom extends React.Component {
   componentDidMount(){
     document.addEventListener("keydown", this.keyPressed, false);
     const chars = [];
-    TRAINING_STRING.split('').forEach(symbol => chars.push({
-      symbol,
-      isCorrect: null
-    }));
-    let st = this.state;
-    st.chars = chars;
-    this.setState(st);
+    //      TRAINING_STRING.split('').forEach(symbol => chars.push({
+    //        symbol,
+    //        isCorrect: null
+    //      }));
+    //      let st = this.state;
+    //      st.chars = chars;
+    //      this.setState(st);
   }
 
   componentWillUnmount(){
@@ -90,7 +89,7 @@ class TrainingRoom extends React.Component {
           <Grid item xs={8}>  
             <Card style={{ paddingBottom: "30px" }}>
               <CardContent>
-                <TypingString chars={this.state.chars} currentIndex={this.state.currentIndex} currentSymbol={this.state.currentSymbol}/>
+                <TypingStrings chars={this.state.chars} currentIndex={this.state.currentIndex} currentSymbol={this.state.currentSymbol} />
               </CardContent>
             </Card>
           </Grid>
