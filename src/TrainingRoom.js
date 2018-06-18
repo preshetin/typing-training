@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 
 //const TRAINING_STRING = "ппп ррр ппп ррр";
 //const TRAINING_STRING = "fff jjj fff jjj";
-//const TRAINING_STRING = ["fff jjj fff jjj", "ffj ffj jjf jjf", "jfj jfj fjf fjf"];
+const TRAINING_STRING = ["fff jjj fff jjj", "ffj ffj jjf jjf", "jfj jfj fjf fjf"];
 
 class TrainingRoom extends React.Component {
 
@@ -21,16 +21,16 @@ class TrainingRoom extends React.Component {
     super(props);
     this.state = {
       chars: [
-        [
-          { symbol: "f", isCorrect: true },
-          { symbol: "f", isCorrect: true },
-          { symbol: "f", isCorrect: true }
-        ],
-        [
-          { symbol: "j", isCorrect: null },
-          { symbol: "j", isCorrect: null },
-          { symbol: "j", isCorrect: null }
-        ],
+        //        [
+        //          { symbol: "f", isCorrect: true },
+        //          { symbol: "f", isCorrect: true },
+        //          { symbol: "f", isCorrect: true }
+        //        ],
+        //        [
+        //          { symbol: "j", isCorrect: null },
+        //          { symbol: "j", isCorrect: null },
+        //          { symbol: "j", isCorrect: null }
+        //        ],
       ],
       currentIndex: 4,
       currentSymbol: ""
@@ -69,13 +69,18 @@ class TrainingRoom extends React.Component {
   componentDidMount(){
     document.addEventListener("keydown", this.keyPressed, false);
     const chars = [];
-    //      TRAINING_STRING.split('').forEach(symbol => chars.push({
-    //        symbol,
-    //        isCorrect: null
-    //      }));
-    //      let st = this.state;
-    //      st.chars = chars;
-    //      this.setState(st);
+    TRAINING_STRING.forEach((str, index) => {
+      chars.push([]);
+      str.split('').forEach((symbol, charIndex) => {
+        chars[index].push({ symbol, isCorrect: null })
+        if (str.length === charIndex + 1) {
+          chars[index].push({ symbol: " ", isCorrect: null });
+        }
+      });
+    });
+    let st = this.state;
+    st.chars = chars;
+    this.setState(st);
   }
 
   componentWillUnmount(){
