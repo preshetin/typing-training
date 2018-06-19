@@ -1,8 +1,40 @@
 import React, { Component } from 'react'
 import './Keyboard.css';
 
+const charRu = {
+  q: "й",
+  w: "ц",
+  e: "у"
+};
+
+const charEn = {
+  q: "q",
+  w: "w",
+  e: "e"
+};
+
 class Keyboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      char: null
+    }
+  }
+
+  componentDidMount() {
+    switch (this.props.lang) {
+      case "ru":
+        this.setState({ char: charRu });
+        break;
+      case "en":
+        this.setState({ char: charEn });
+        break;
+    }
+  }
   render() {
+    if (this.state.char === null) {
+      return 'Loading...';
+    }
     return (
 <div id="container">
     <ul id="keyboard">
@@ -21,9 +53,9 @@ class Keyboard extends Component {
         <li className="symbol"><span className="off">=</span><span className="on">+</span></li>
         <li className="delete lastitem">delete</li>
         <li className="tab">tab</li>
-        <li className="letter">q</li>
-        <li className="letter">w</li>
-        <li className="letter">e</li>
+        <li className="letter">{this.state.char.q}</li>
+        <li className="letter">{this.state.char.w}</li>
+        <li className="letter">{this.state.char.e}</li>
         <li className="letter">r</li>
         <li className="letter">t</li>
         <li className="letter">y</li>

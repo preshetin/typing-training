@@ -32,7 +32,7 @@ class TrainingRoom extends React.Component {
         //          { symbol: "j", isCorrect: null }
         //        ],
       ],
-      currentIndex: 4,
+      currentIndex: 0,
       currentSymbol: ""
     }
     this.keyPressed = this.keyPressed.bind(this);
@@ -99,7 +99,7 @@ class TrainingRoom extends React.Component {
             </Card>
           </Grid>
           <Grid item xs={8}>
-            <Keyboard />
+            <Keyboard lang="en"/>
           </Grid>
         </Grid>
       </div>
