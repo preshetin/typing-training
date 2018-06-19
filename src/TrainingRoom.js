@@ -89,8 +89,7 @@ class TrainingRoom extends React.Component {
 
   render() {
     return (
-      <div>
-        <Grid container justify="center" style={{ margin: "20px" }} spacing={24}>
+        <Grid container justify="center" style={{ marginTop: "20px" }} >
           <Grid item xs={8}>  
             <Card style={{ paddingBottom: "30px" }}>
               <CardContent>
@@ -102,7 +101,6 @@ class TrainingRoom extends React.Component {
             <Keyboard lang="en"/>
           </Grid>
         </Grid>
-      </div>
     );
   }
 }

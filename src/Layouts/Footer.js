@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 class Footer extends React.Component {
   render() {
     return (
-      <Grid container justify="center" spacing={24}>
+      <Grid container justify="center">
         <Grid item xs={8}>
         <Typography color="inherit">
             Typing Training

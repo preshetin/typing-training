@@ -1,22 +1,22 @@
 import React from "react";
 import IncorrectCharacter from './IncorrectCharacter';
+import './TypingString.css';
 
 const Character = (props) => {
-  return <div style={{ fontFamily: "'Roboto Mono', monospace", display: "inline", fontSize: "300%" }}>{props.symbol}</div>;
+  return <div className="Character" >{props.symbol}</div>;
 }
 
-
 const CorrectCharacter = (props) => {
-  return <div style={{  fontFamily: "'Roboto Mono', monospace", display: "inline", fontSize: "300%", color: "blue" }}>{props.symbol}</div>;
+  return <div className="Character" style={{ color: "blue" }}>{props.symbol}</div>;
 }
 
 const CurrentCharacter = (props) => {
-  return <div style={{  fontFamily: "'Roboto Mono', monospace", display: "inline",  fontSize: "300%", backgroundColor: "blue", color: "white" }}>{props.symbol}</div>;
+  return <div className="Character" style={{ backgroundColor: "blue", color: "white" }}>{props.symbol}</div>;
 }
 
 function TypingString(props) {
   return (
-    <React.Fragment>
+    <div className="String">
       {props.chars.map((char, index) => {
       switch (char.isCorrect) {
         case true:
@@ -28,7 +28,7 @@ function TypingString(props) {
       }
     })} 
     <br />
-  </React.Fragment>
+  </div>
   );
 }
 
