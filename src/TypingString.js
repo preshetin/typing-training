@@ -7,11 +7,11 @@ const Character = (props) => {
 }
 
 const CorrectCharacter = (props) => {
-  return <div className="Character" style={{ color: "blue" }}>{props.symbol}</div>;
+  return <div className="Character" style={{ color: "#3f51b5" }}>{props.symbol}</div>;
 }
 
 const CurrentCharacter = (props) => {
-  return <div className="Character" style={{ backgroundColor: "blue", color: "white" }}>{props.symbol}</div>;
+  return <div className="Character" style={{ backgroundColor: "#3f51b5", color: "white" }}>{props.symbol}</div>;
 }
 
 function TypingString(props) {

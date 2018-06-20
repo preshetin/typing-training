@@ -10,10 +10,12 @@ class App extends Component {
   }
 
   render() {
+    const result =  <TrainingRoom />;
+
     return (
       <Fragment>
         <Header />
-        <TrainingRoom />
+          {result}
         <Footer />
       </Fragment>
     );

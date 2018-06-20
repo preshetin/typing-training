@@ -1,10 +1,11 @@
 .Character {
   font-family: 'Roboto Mono', monospace;
   display: inline; 
-  font-size: 250% 
+  font-size: 180% 
 }
+
 .String {
-  margin-bottom: 20px;
-  border-bottom: 2px dashed gainsboro;
-  padding-bottom: 10px;
+    margin-bottom: 13px;
+    border-bottom: 1px dashed gainsboro;
+    padding-bottom: 7px;
 }

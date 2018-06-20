@@ -10,7 +10,6 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-
 //const TRAINING_STRING = "ппп ррр ппп ррр";
 //const TRAINING_STRING = "fff jjj fff jjj";
 const TRAINING_STRING = ["fff jjj fff jjj", "ffj ffj jjf jjf", "jfj jfj fjf fjf"];
@@ -89,7 +88,7 @@ class TrainingRoom extends React.Component {
 
   render() {
     return (
-        <Grid container justify="center" style={{ marginTop: "20px" }} >
+        <Grid container justify="center" style={{ margin: "40px 0" }} >
           <Grid item xs={8}>  
             <Card style={{ paddingBottom: "30px" }}>
               <CardContent>
