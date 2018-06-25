@@ -82,17 +82,27 @@ class TrainingRoom extends React.Component {
   render() {
     return (
       <div>
-      <div className="row">
-        <div class="card w-75">
-          <div class="card-body">
-            <TypingStrings chars={this.state.chars} currentIndex={this.state.currentIndex} currentSymbol={this.state.currentSymbol} />
+        <div className="row">
+          <div className="col">
+          <div class="card ">
+            <div class="card-body">
+              <TypingStrings chars={this.state.chars} currentIndex={this.state.currentIndex} currentSymbol={this.state.currentSymbol} />
+            </div>
+          </div>   
+          </div>   
+        </div>
+        <div className="row">
+          <Keyboard lang="en"/>
+        </div>
+        <div className="row">
+          <div className="col">
+            <div class="btn-group d-flex btn-group-sm" role="group" aria-label="...">
+              <button type="button" class="btn btn-primary w-100"></button>
+              <button type="button" class="btn btn-primary w-100">Middle</button>
+              <button type="button" class="btn btn-secondary disabled w-100">Right</button>
+            </div>
           </div>
-        </div>   
-      </div>
-
-      <div className="row">
-            <Keyboard lang="en"/>
-          </div>
+        </div>
       </div>
     );
   }
