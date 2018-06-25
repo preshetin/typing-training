@@ -1,14 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import TypingStrings from './TypingStrings';
 import Keyboard from './Keyboard';
 import { getCharByGlobalIndex, getArrayIndexByGlobalIndex, getStringIndexByGlobalIndex } from './arrayConverter.js';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 
 //const TRAINING_STRING = "ппп ррр ппп ррр";
 //const TRAINING_STRING = "fff jjj fff jjj";
@@ -88,18 +81,19 @@ class TrainingRoom extends React.Component {
 
   render() {
     return (
-        <Grid container justify="center" style={{ margin: "40px 0" }} >
-          <Grid item xs={8}>  
-            <Card style={{ paddingBottom: "30px" }}>
-              <CardContent>
-                <TypingStrings chars={this.state.chars} currentIndex={this.state.currentIndex} currentSymbol={this.state.currentSymbol} />
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={8}>
+      <div>
+      <div className="row">
+        <div class="card w-75">
+          <div class="card-body">
+            <TypingStrings chars={this.state.chars} currentIndex={this.state.currentIndex} currentSymbol={this.state.currentSymbol} />
+          </div>
+        </div>   
+      </div>
+
+      <div className="row">
             <Keyboard lang="en"/>
-          </Grid>
-        </Grid>
+          </div>
+      </div>
     );
   }
 }
