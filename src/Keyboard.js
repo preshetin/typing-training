@@ -35,6 +35,9 @@ class Keyboard extends Component {
     if (this.state.char === null) {
       return 'Loading...';
     }
+    if (this.props.hide) {
+      return null;
+    }
     return (
 <div id="container">
     <ul id="keyboard">

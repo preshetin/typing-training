@@ -1,17 +1,24 @@
 import React from 'react';
+import ExerciseResult from './ExerciseResult';
 import TypingStrings from './TypingStrings';
 import Keyboard from './Keyboard';
-import { getCharByGlobalIndex, getArrayIndexByGlobalIndex, getStringIndexByGlobalIndex } from './arrayConverter.js';
+import { exerciseIsFinished, getCharByGlobalIndex, getArrayIndexByGlobalIndex, getStringIndexByGlobalIndex } from './arrayConverter.js';
 
-//const TRAINING_STRING = "ппп ррр ппп ррр";
-//const TRAINING_STRING = "fff jjj fff jjj";
-const TRAINING_STRING = ["fff jjj fff jjj", "ffj ffj jjf jjf", "jfj jfj fjf fjf"];
+//const TRAINING_STRING = ["ппп ррр ппп ррр"];
+//const TRAINING_STRING = ["fff jjj"];
+//const TRAINING_STRING = ["fff jjj fff jjj", "ffj ffj jjf jjf", "jfj jfj fjf fjf"];
+const TRAINING_STRING = ["fff", "ff", "jfj", "jjj"];
 
 class TrainingRoom extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      exercices: [
+        ["ff", "fff"],
+        ["jjj"],
+        ["fff", "ff", "jfj", "jjj"]
+      ],
       chars: [
         //        [
         //          { symbol: "f", isCorrect: true },
@@ -25,14 +32,22 @@ class TrainingRoom extends React.Component {
         //        ],
       ],
       currentIndex: 0,
+      exerciseIndex: 0,
       currentSymbol: ""
     }
     this.keyPressed = this.keyPressed.bind(this);
   }
 
-  keyPressed(event){
+  keyPressed(event) {
     const symbol = event.key;
+
+    if (symbol === "Enter" && exerciseIsFinished(this.state.chars, this.state.currentIndex)) {
+      this.prepareNextExercise();
+    }
     if (symbol === "Backspace") {
+      if (exerciseIsFinished(this.state.chars, this.state.currentIndex)) {
+       return; 
+      } 
       let st = this.state;
         if (st.currentIndex > 0) {
           st.currentIndex--;
@@ -58,10 +73,9 @@ class TrainingRoom extends React.Component {
     this.setState(st);
   }
 
-  componentDidMount(){
-    document.addEventListener("keydown", this.keyPressed, false);
+  prepareExerciseChars(exercise) {
     const chars = [];
-    TRAINING_STRING.forEach((str, index) => {
+    exercise.forEach((str, index) => {
       chars.push([]);
       str.split('').forEach((symbol, charIndex) => {
         chars[index].push({ symbol, isCorrect: null })
@@ -70,6 +84,22 @@ class TrainingRoom extends React.Component {
         }
       });
     });
+    return chars;
+  }
+
+  prepareNextExercise = () => {
+    console.log('preparing next exercice...');
+    const st = this.state;
+    st.currentIndex = 0;
+    st.currentSymbol = "";
+    st.exerciseIndex++;
+    st.chars = this.prepareExerciseChars(st.exercices[st.exerciseIndex]);
+    this.setState(st);
+  }
+
+  componentDidMount(){
+    document.addEventListener("keydown", this.keyPressed, false);
+    const chars = this.prepareExerciseChars(this.state.exercices[0]);
     let st = this.state;
     st.chars = chars;
     this.setState(st);
@@ -79,27 +109,34 @@ class TrainingRoom extends React.Component {
     document.removeEventListener("keydown", this.keyPressed, false);
   }
 
+
   render() {
+    if (this.state.chars.length === 0) {
+      return "Loading...";
+    }
+    if (exerciseIsFinished(this.state.chars, this.state.currentIndex)) {
+      return <ExerciseResult errorRate={0.7} nextExerciseIndex={1} onNextExercice={this.prepareNextExercise} />;
+    }
     return (
       <div>
         <div className="row">
           <div className="col">
-          <div class="card ">
-            <div class="card-body">
+          <div className="card ">
+            <div className="card-body">
               <TypingStrings chars={this.state.chars} currentIndex={this.state.currentIndex} currentSymbol={this.state.currentSymbol} />
             </div>
           </div>   
           </div>   
         </div>
         <div className="row">
-          <Keyboard lang="en"/>
+          <Keyboard lang="en" hide/>
         </div>
         <div className="row">
           <div className="col">
-            <div class="btn-group d-flex btn-group-sm" role="group" aria-label="...">
-              <button type="button" class="btn btn-primary w-100"></button>
-              <button type="button" class="btn btn-primary w-100">Middle</button>
-              <button type="button" class="btn btn-secondary disabled w-100">Right</button>
+            <div className="btn-group d-flex btn-group-sm" role="group" aria-label="...">
+              <button type="button" className="btn btn-primary w-100"></button>
+              <button type="button" className="btn btn-primary w-100">Middle</button>
+              <button type="button" className="btn btn-secondary disabled w-100">Right</button>
             </div>
           </div>
         </div>

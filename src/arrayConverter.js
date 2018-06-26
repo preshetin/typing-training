@@ -1,33 +1,7 @@
-  const getLengthsArr = (stringsArr) => {
-    return stringsArr.map(arr => arr.length);
-  }
+export const exerciseIsFinished = (stringsArr, globalIndex) => {
 
-  const getMaxesArray = (stringsArr) => {
-    const resultArr = [];
-    const lengthsArr = getLengthsArr(stringsArr);
-    lengthsArr.forEach((length, index) => {
-      if (index === 0) {
-        resultArr.push(length - 1);
-      } else {
-        resultArr.push(lengthsArr[index - 1] + length - 1);
-      }
-    });
-    return resultArr;
-  }
-
-  const getMinsArray = (stringsArr) => {
-    const maxesArray = getMaxesArray(stringsArr);
-    const lengthsArr = getLengthsArr(stringsArr);
-    const minsArray = [];
-    lengthsArr.forEach((length, index) => {
-      if (index === 0) {
-        minsArray.push(0);
-      } else {
-        minsArray.push(maxesArray[index - 1] + 1);
-      }
-    });
-    return minsArray;
-  }
+  return getLengthsArr(stringsArr).reduce((acc, val) => acc + val) - 1 === globalIndex;
+}
 
 export const getStringIndexByGlobalIndex = (stringsArr, globalIndex) => {
     const result = globalIndex - getMinsArray(stringsArr, globalIndex)[getArrayIndexByGlobalIndex(stringsArr, globalIndex)]; 
@@ -43,10 +17,42 @@ export const getArrayIndexByGlobalIndex = (stringsArr, globalIndex) => {
         resultIndex = index;
       }
     });
-
     return resultIndex;
   }
+
 export const getCharByGlobalIndex = (stringsArr, globalIndex) => {
   const currentString = stringsArr[getArrayIndexByGlobalIndex(stringsArr, globalIndex)];
   return currentString[getStringIndexByGlobalIndex(stringsArr, globalIndex)];
 }
+
+const getLengthsArr = (stringsArr) => {
+  return stringsArr.map(arr => arr.length);
+}
+
+const getMaxesArray = (stringsArr) => {
+  const resultArr = [];
+  const lengthsArr = getLengthsArr(stringsArr);
+  lengthsArr.forEach((length, index) => {
+    if (index === 0) {
+      resultArr.push(length - 1);
+    } else {
+      resultArr.push(resultArr[index - 1] + length );
+    }
+  });
+  return resultArr;
+}
+
+const getMinsArray = (stringsArr) => {
+  const maxesArray = getMaxesArray(stringsArr);
+  const lengthsArr = getLengthsArr(stringsArr);
+  const minsArray = [];
+  lengthsArr.forEach((length, index) => {
+    if (index === 0) {
+      minsArray.push(0);
+    } else {
+      minsArray.push(maxesArray[index - 1] + 1);
+    }
+  });
+  return minsArray;
+}
+
