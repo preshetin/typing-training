@@ -21,14 +21,14 @@ class TrainingRoom extends React.Component {
       ],
       chars: [
         //        [
-        //          { symbol: "f", isCorrect: true },
-        //          { symbol: "f", isCorrect: true },
-        //          { symbol: "f", isCorrect: true }
+        //          { symbol: "f", typeStatus: true },
+        //          { symbol: "f", typeStatus: true },
+        //          { symbol: "f", typeStatus: true }
         //        ],
         //        [
-        //          { symbol: "j", isCorrect: null },
-        //          { symbol: "j", isCorrect: null },
-        //          { symbol: "j", isCorrect: null }
+        //          { symbol: "j", typeStatus: null },
+        //          { symbol: "j", typeStatus: null },
+        //          { symbol: "j", typeStatus: null }
         //        ],
       ],
       currentIndex: 0,
@@ -55,7 +55,11 @@ class TrainingRoom extends React.Component {
       let st = this.state;
         if (st.currentIndex > 0) {
           st.currentIndex--;
-          st.chars[getArrayIndexByGlobalIndex(this.state.chars, this.state.currentIndex)][getStringIndexByGlobalIndex(this.state.chars, this.state.currentIndex)].isCorrect = null;
+          if (st.chars[getArrayIndexByGlobalIndex(st.chars, st.currentIndex)][getStringIndexByGlobalIndex(st.chars, st.currentIndex)].typeStatus === 'mistake' || st.chars[getArrayIndexByGlobalIndex(st.chars, st.currentIndex)][getStringIndexByGlobalIndex(st.chars, st.currentIndex)].typeStatus === 'fixed') {
+            st.chars[getArrayIndexByGlobalIndex(st.chars, st.currentIndex)][getStringIndexByGlobalIndex(st.chars, st.currentIndex)].typeStatus = 'fixing';
+          } else {
+            st.chars[getArrayIndexByGlobalIndex(st.chars, st.currentIndex)][getStringIndexByGlobalIndex(st.chars, st.currentIndex)].typeStatus = null;
+          }
         }
       this.setState(st);
       return;
@@ -63,14 +67,18 @@ class TrainingRoom extends React.Component {
     if (symbol.length !== 1) {
       return;
     }
-    if (this.state.currentIndex > 0 && getCharByGlobalIndex(this.state.chars, this.state.currentIndex - 1).isCorrect === false) {
-      return; 
-    }
+    //  if (this.state.currentIndex > 0 && getCharByGlobalIndex(this.state.chars, this.state.currentIndex - 1).typeStatus === 'correct') {
+    //    return; 
+    //  }
     let st = this.state;
     if (symbol === getCharByGlobalIndex(this.state.chars, this.state.currentIndex).symbol) {
-      st.chars[getArrayIndexByGlobalIndex(this.state.chars, this.state.currentIndex)][getStringIndexByGlobalIndex(this.state.chars, this.state.currentIndex)].isCorrect = true;
+      if (st.chars[getArrayIndexByGlobalIndex(this.state.chars, this.state.currentIndex)][getStringIndexByGlobalIndex(this.state.chars, this.state.currentIndex)].typeStatus === 'fixing') {
+        st.chars[getArrayIndexByGlobalIndex(this.state.chars, this.state.currentIndex)][getStringIndexByGlobalIndex(this.state.chars, this.state.currentIndex)].typeStatus = 'fixed';
+      } else {
+      st.chars[getArrayIndexByGlobalIndex(this.state.chars, this.state.currentIndex)][getStringIndexByGlobalIndex(this.state.chars, this.state.currentIndex)].typeStatus = 'correct';
+      }
     } else {
-      st.chars[getArrayIndexByGlobalIndex(this.state.chars, this.state.currentIndex)][getStringIndexByGlobalIndex(this.state.chars, this.state.currentIndex)].isCorrect = false;
+      st.chars[getArrayIndexByGlobalIndex(this.state.chars, this.state.currentIndex)][getStringIndexByGlobalIndex(this.state.chars, this.state.currentIndex)].typeStatus = 'mistake';
     }
     st.currentIndex++;
     st.currentSymbol = symbol;
@@ -82,9 +90,9 @@ class TrainingRoom extends React.Component {
     exercise.forEach((str, index) => {
       chars.push([]);
       str.split('').forEach((symbol, charIndex) => {
-        chars[index].push({ symbol, isCorrect: null })
+        chars[index].push({ symbol, typeStatus: null })
         if (str.length === charIndex + 1) {
-          chars[index].push({ symbol: " ", isCorrect: null });
+          chars[index].push({ symbol: " ", typeStatus: null });
         }
       });
     });
