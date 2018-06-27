@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import TrainingRoom from './TrainingRoom';
 import LessonsList from './LessonsList';
 import Header from './Layouts/Header';
@@ -15,12 +16,15 @@ class App extends Component {
     //    const result =  <LessonsList />;
 
     return (
-      <div>
-        <Header />
-        <div className="container">
-          {result}
+      <Router>
+        <div>
+          <Header />
+          <div className="container">
+            <Route exact path="/" component={LessonsList} />
+            <Route path="/lessons/1" component={TrainingRoom} />
+          </div>
         </div>
-      </div>
+      </Router>
     );
   }
 }

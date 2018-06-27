@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import Lesson from './Lesson';
 
 class LessonsList extends React.Component {
@@ -28,7 +29,7 @@ class LessonsList extends React.Component {
 
   render() {
     return (
-      <div class="card-deck mb-3 text-center">
+      <div className="card-deck mb-3 text-center">
         {this.state.lessons.map(lesson => <Lesson lesson={lesson} />)}
       </div>
     )

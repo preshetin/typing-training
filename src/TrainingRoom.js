@@ -135,6 +135,7 @@ class TrainingRoom extends React.Component {
         <div className="row">
           <Keyboard lang="en" hide/>
         </div>
+        <br />
         <div className="row">
           <div className="col">
             <div className="btn-group d-flex btn-group-sm" role="group" aria-label="...">
