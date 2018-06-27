@@ -39,10 +39,14 @@ class TrainingRoom extends React.Component {
   }
 
   keyPressed(event) {
-    const symbol = event.key;
+    let symbol = event.key;
 
     if (symbol === "Enter" && exerciseIsFinished(this.state.chars, this.state.currentIndex)) {
       this.prepareNextExercise();
+      return;
+    }
+    if (symbol === 'Enter') {
+      symbol = ' ';
     }
     if (symbol === "Backspace") {
       if (exerciseIsFinished(this.state.chars, this.state.currentIndex)) {
