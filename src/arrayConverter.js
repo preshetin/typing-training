@@ -1,3 +1,11 @@
+export const correctRate = (stringsArr) => {
+  let correctCount = 0;
+  stringsArr.forEach(stringArr => correctCount += stringArr.filter(char => char.typeStatus === 'correct').length)
+  const result = correctCount / getLengthsArr(stringsArr).reduce((acc, val) => acc + val) * 100;
+  console.log(correctCount);
+  console.log(result);
+  return result;
+}
 export const exerciseIsFinished = (stringsArr, globalIndex) => {
 
   return getLengthsArr(stringsArr).reduce((acc, val) => acc + val) - 1 === globalIndex;

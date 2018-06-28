@@ -2,7 +2,7 @@ import React from 'react';
 import ExerciseResult from './ExerciseResult';
 import TypingStrings from './TypingStrings';
 import Keyboard from './Keyboard';
-import { exerciseIsFinished, getCharByGlobalIndex, getArrayIndexByGlobalIndex, getStringIndexByGlobalIndex } from './arrayConverter.js';
+import { correctRate, exerciseIsFinished, getCharByGlobalIndex, getArrayIndexByGlobalIndex, getStringIndexByGlobalIndex } from './arrayConverter.js';
 
 //const TRAINING_STRING = ["ппп ррр ппп ррр"];
 //const TRAINING_STRING = ["fff jjj"];
@@ -127,7 +127,7 @@ class TrainingRoom extends React.Component {
       return "Loading...";
     }
     if (exerciseIsFinished(this.state.chars, this.state.currentIndex)) {
-      return <ExerciseResult errorRate={0.7} nextExerciseIndex={1} onNextExercice={this.prepareNextExercise} />;
+      return <ExerciseResult correctRate={correctRate(this.state.chars)} nextExerciseIndex={1} onNextExercice={this.prepareNextExercise} />;
     }
     return (
       <div>
