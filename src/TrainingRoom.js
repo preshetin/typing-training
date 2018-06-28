@@ -31,6 +31,9 @@ class TrainingRoom extends React.Component {
     let symbol = event.key;
 
     if (exerciseIsFinished(this.state.chars, this.state.currentIndex) && ! isExercisePassed(correctRate(this.state.chars))) {
+      if (symbol === "Enter") {
+        this.prepareTryAgain();
+      }
       return;
     }
     

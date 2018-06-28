@@ -29,7 +29,7 @@ class LessonsList extends React.Component {
 
   render() {
     return (
-      <div className="card-deck mb-3 text-center">
+      <div className="card-deck text-center">
         {this.state.lessons.map(lesson => <Lesson lesson={lesson} />)}
       </div>
     )

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Lesson = (props) => {
   return (
-        <div className="card mb-4 box-shadow">
+        <div className="card box-shadow">
           <div className="card-body">
             <h1 className="card-title pricing-card-title">{ props.lesson.title } </h1>
             { props.lesson.subtitle }
