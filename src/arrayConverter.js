@@ -1,3 +1,10 @@
+
+export const MINIMUM_CORRECT_RATE = 80;
+
+export const isExercisePassed = ( rate ) => {
+  return rate >= MINIMUM_CORRECT_RATE;
+}
+
 export const correctRate = (stringsArr) => {
   let correctCount = 0;
   stringsArr.forEach(stringArr => correctCount += stringArr.filter(char => char.typeStatus === 'correct').length)

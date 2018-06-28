@@ -2,12 +2,12 @@ import React from 'react';
 import ExerciseResult from './ExerciseResult';
 import TypingStrings from './TypingStrings';
 import Keyboard from './Keyboard';
-import { correctRate, exerciseIsFinished, getCharByGlobalIndex, getArrayIndexByGlobalIndex, getStringIndexByGlobalIndex } from './arrayConverter.js';
+import { isExercisePassed, correctRate, exerciseIsFinished, getCharByGlobalIndex, getArrayIndexByGlobalIndex, getStringIndexByGlobalIndex } from './arrayConverter.js';
 
 //const TRAINING_STRING = ["ппп ррр ппп ррр"];
 //const TRAINING_STRING = ["fff jjj"];
 //const TRAINING_STRING = ["fff jjj fff jjj", "ffj ffj jjf jjf", "jfj jfj fjf fjf"];
-const TRAINING_STRING = ["fff", "ff", "jfj", "jjj"];
+//const TRAINING_STRING = ["fff", "ff", "jfj", "jjj"];
 
 class TrainingRoom extends React.Component {
 
@@ -19,18 +19,7 @@ class TrainingRoom extends React.Component {
         ["jjj"],
         ["fff", "ff", "jfj", "jjj"]
       ],
-      chars: [
-        //        [
-        //          { symbol: "f", typeStatus: true },
-        //          { symbol: "f", typeStatus: true },
-        //          { symbol: "f", typeStatus: true }
-        //        ],
-        //        [
-        //          { symbol: "j", typeStatus: null },
-        //          { symbol: "j", typeStatus: null },
-        //          { symbol: "j", typeStatus: null }
-        //        ],
-      ],
+      chars: [],
       currentIndex: 0,
       exerciseIndex: 0,
       currentSymbol: ""
@@ -41,7 +30,16 @@ class TrainingRoom extends React.Component {
   keyPressed(event) {
     let symbol = event.key;
 
-    if (symbol === "Enter" && exerciseIsFinished(this.state.chars, this.state.currentIndex)) {
+    if (exerciseIsFinished(this.state.chars, this.state.currentIndex) && ! isExercisePassed(correctRate(this.state.chars))) {
+      return;
+    }
+    
+    if (exerciseIsFinished(this.state.chars, this.state.currentIndex) && isExercisePassed(correctRate(this.state.chars)) && symbol !== "Enter") {
+      return;
+    }
+
+    if (symbol === "Enter" && exerciseIsFinished(this.state.chars, this.state.currentIndex) && isExercisePassed(correctRate(this.state.chars))) {
+      console.log('preparing ...')
       this.prepareNextExercise();
       return;
     }
@@ -100,11 +98,18 @@ class TrainingRoom extends React.Component {
   }
 
   prepareNextExercise = () => {
-    console.log('preparing next exercice...');
+    this.prepareExersiseAtIndex(this.state.exerciseIndex + 1);
+  }
+
+  prepareTryAgain = () => {
+    this.prepareExersiseAtIndex(this.state.exerciseIndex);
+  }
+
+  prepareExersiseAtIndex(index) {
     const st = this.state;
     st.currentIndex = 0;
     st.currentSymbol = "";
-    st.exerciseIndex++;
+    st.exerciseIndex = index;
     st.chars = this.prepareExerciseChars(st.exercices[st.exerciseIndex]);
     this.setState(st);
   }
@@ -127,7 +132,7 @@ class TrainingRoom extends React.Component {
       return "Loading...";
     }
     if (exerciseIsFinished(this.state.chars, this.state.currentIndex)) {
-      return <ExerciseResult correctRate={correctRate(this.state.chars)} nextExerciseIndex={1} onNextExercice={this.prepareNextExercise} />;
+      return <ExerciseResult correctRate={correctRate(this.state.chars)} onTryAgain={this.prepareTryAgain} onNextExercice={this.prepareNextExercise} />;
     }
     return (
       <div>
