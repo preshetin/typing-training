@@ -8,9 +8,8 @@ export const isExercisePassed = ( rate ) => {
 export const correctRate = (stringsArr) => {
   let correctCount = 0;
   stringsArr.forEach(stringArr => correctCount += stringArr.filter(char => char.typeStatus === 'correct').length)
-  const result = correctCount / getLengthsArr(stringsArr).reduce((acc, val) => acc + val) * 100;
-  console.log(correctCount);
-  console.log(result);
+  const charsCount = getLengthsArr(stringsArr).reduce((acc, val) => acc + val) - 1;
+  const result = correctCount / charsCount * 100;
   return result;
 }
 export const exerciseIsFinished = (stringsArr, globalIndex) => {
