@@ -4,11 +4,6 @@ import TypingStrings from './TypingStrings';
 import Keyboard from './Keyboard';
 import { isExercisePassed, correctRate, exerciseIsFinished, getCharByGlobalIndex, getArrayIndexByGlobalIndex, getStringIndexByGlobalIndex } from './arrayConverter.js';
 
-//const TRAINING_STRING = ["ппп ррр ппп ррр"];
-//const TRAINING_STRING = ["fff jjj"];
-//const TRAINING_STRING = ["fff jjj fff jjj", "ffj ffj jjf jjf", "jfj jfj fjf fjf"];
-//const TRAINING_STRING = ["fff", "ff", "jfj", "jjj"];
-
 class TrainingRoom extends React.Component {
 
   constructor(props) {
@@ -24,65 +19,6 @@ class TrainingRoom extends React.Component {
       exerciseIndex: 0,
       currentSymbol: ""
     }
-    this.keyPressed = this.keyPressed.bind(this);
-  }
-
-  keyPressed(event) {
-    let symbol = event.key;
-
-    if (exerciseIsFinished(this.state.chars, this.state.currentIndex) && ! isExercisePassed(correctRate(this.state.chars))) {
-      if (symbol === "Enter") {
-        this.prepareTryAgain();
-      }
-      return;
-    }
-    
-    if (exerciseIsFinished(this.state.chars, this.state.currentIndex) && isExercisePassed(correctRate(this.state.chars)) && symbol !== "Enter") {
-      return;
-    }
-
-    if (symbol === "Enter" && exerciseIsFinished(this.state.chars, this.state.currentIndex) && isExercisePassed(correctRate(this.state.chars))) {
-      this.prepareNextExercise();
-      return;
-    }
-    if (symbol === 'Enter') {
-      symbol = ' ';
-    }
-    if (symbol === "Backspace") {
-      if (exerciseIsFinished(this.state.chars, this.state.currentIndex)) {
-       return; 
-      } 
-      let st = this.state;
-        if (st.currentIndex > 0) {
-          st.currentIndex--;
-          if (st.chars[getArrayIndexByGlobalIndex(st.chars, st.currentIndex)][getStringIndexByGlobalIndex(st.chars, st.currentIndex)].typeStatus === 'mistake' || st.chars[getArrayIndexByGlobalIndex(st.chars, st.currentIndex)][getStringIndexByGlobalIndex(st.chars, st.currentIndex)].typeStatus === 'fixed') {
-            st.chars[getArrayIndexByGlobalIndex(st.chars, st.currentIndex)][getStringIndexByGlobalIndex(st.chars, st.currentIndex)].typeStatus = 'fixing';
-          } else {
-            st.chars[getArrayIndexByGlobalIndex(st.chars, st.currentIndex)][getStringIndexByGlobalIndex(st.chars, st.currentIndex)].typeStatus = null;
-          }
-        }
-      this.setState(st);
-      return;
-    }
-    if (symbol.length !== 1) {
-      return;
-    }
-    //  if (this.state.currentIndex > 0 && getCharByGlobalIndex(this.state.chars, this.state.currentIndex - 1).typeStatus === 'correct') {
-    //    return; 
-    //  }
-    let st = this.state;
-    if (symbol === getCharByGlobalIndex(this.state.chars, this.state.currentIndex).symbol) {
-      if (st.chars[getArrayIndexByGlobalIndex(this.state.chars, this.state.currentIndex)][getStringIndexByGlobalIndex(this.state.chars, this.state.currentIndex)].typeStatus === 'fixing') {
-        st.chars[getArrayIndexByGlobalIndex(this.state.chars, this.state.currentIndex)][getStringIndexByGlobalIndex(this.state.chars, this.state.currentIndex)].typeStatus = 'fixed';
-      } else {
-      st.chars[getArrayIndexByGlobalIndex(this.state.chars, this.state.currentIndex)][getStringIndexByGlobalIndex(this.state.chars, this.state.currentIndex)].typeStatus = 'correct';
-      }
-    } else {
-      st.chars[getArrayIndexByGlobalIndex(this.state.chars, this.state.currentIndex)][getStringIndexByGlobalIndex(this.state.chars, this.state.currentIndex)].typeStatus = 'mistake';
-    }
-    st.currentIndex++;
-    st.currentSymbol = symbol;
-    this.setState(st);
   }
 
   prepareExerciseChars(exercise) {
@@ -116,33 +52,69 @@ class TrainingRoom extends React.Component {
     this.setState(st);
   }
 
-  componentDidMount(){
-    document.addEventListener("keydown", this.keyPressed, false);
+  componentDidMount() {
     const chars = this.prepareExerciseChars(this.state.exercices[0]);
     let st = this.state;
     st.chars = chars;
     this.setState(st);
   }
 
-  componentWillUnmount(){
-    document.removeEventListener("keydown", this.keyPressed, false);
+  handleCharacterType = (symbol) => {
+    let st = this.state;
+    if (symbol === getCharByGlobalIndex(this.state.chars, this.state.currentIndex).symbol) {
+     if (st.chars[getArrayIndexByGlobalIndex(this.state.chars, this.state.currentIndex)][getStringIndexByGlobalIndex(this.state.chars, this.state.currentIndex)].typeStatus === 'fixing') {
+       st.chars[getArrayIndexByGlobalIndex(this.state.chars, this.state.currentIndex)][getStringIndexByGlobalIndex(this.state.chars, this.state.currentIndex)].typeStatus = 'fixed';
+     } else {
+     st.chars[getArrayIndexByGlobalIndex(this.state.chars, this.state.currentIndex)][getStringIndexByGlobalIndex(this.state.chars, this.state.currentIndex)].typeStatus = 'correct';
+     }
+    } else {
+     st.chars[getArrayIndexByGlobalIndex(this.state.chars, this.state.currentIndex)][getStringIndexByGlobalIndex(this.state.chars, this.state.currentIndex)].typeStatus = 'mistake';
+    }
+    st.currentIndex++;
+    st.currentSymbol = symbol;
+    this.setState(st);
   }
 
+  handleBackspaceType = (symbol) => {
+    let st = this.state;
+      if (st.currentIndex > 0) {
+        st.currentIndex--;
+        if (st.chars[getArrayIndexByGlobalIndex(st.chars, st.currentIndex)][getStringIndexByGlobalIndex(st.chars, st.currentIndex)].typeStatus === 'mistake' || st.chars[getArrayIndexByGlobalIndex(st.chars, st.currentIndex)][getStringIndexByGlobalIndex(st.chars, st.currentIndex)].typeStatus === 'fixed') {
+          st.chars[getArrayIndexByGlobalIndex(st.chars, st.currentIndex)][getStringIndexByGlobalIndex(st.chars, st.currentIndex)].typeStatus = 'fixing';
+        } else {
+          st.chars[getArrayIndexByGlobalIndex(st.chars, st.currentIndex)][getStringIndexByGlobalIndex(st.chars, st.currentIndex)].typeStatus = null;
+        }
+      }
+    this.setState(st);
+    return;
+  }
 
   render() {
     if (this.state.chars.length === 0) {
       return "Loading...";
     }
+    
     if (exerciseIsFinished(this.state.chars, this.state.currentIndex)) {
-      return <ExerciseResult correctRate={correctRate(this.state.chars)} onTryAgain={this.prepareTryAgain} onNextExercice={this.prepareNextExercise} />;
+      return <ExerciseResult 
+        correctRate={correctRate(this.state.chars)} 
+        onTryAgain={this.prepareTryAgain} 
+        onNextExercice={this.prepareNextExercise}
+        />;
     }
+
     return (
       <div>
         <div className="row">
           <div className="col">
           <div className="card ">
             <div className="card-body">
-              <TypingStrings chars={this.state.chars} currentIndex={this.state.currentIndex} currentSymbol={this.state.currentSymbol} />
+              <TypingStrings 
+                chars={this.state.chars} 
+                currentIndex={this.state.currentIndex} 
+                currentSymbol={this.state.currentSymbol}
+                onCharacterType={this.handleCharacterType}
+                onBackspaceType={this.handleBackspaceType} 
+              />
             </div>
           </div>   
           </div>   

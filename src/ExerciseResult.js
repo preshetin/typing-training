@@ -1,35 +1,59 @@
 import React from 'react';
 import { isExercisePassed, MINIMUM_CORRECT_RATE } from './arrayConverter';
 
-const ExerciseResult = (props) => {
+class ExerciseResult extends React.Component {
   
-  const handleTryAgain = () => {
-    props.onTryAgain();
+  handleTryAgain = () => {
+    this.props.onTryAgain();
   }
 
-  const handleNextClick = (e) => {
+  handleNextClick = (e) => {
     //console.log(e.target);
-    props.onNextExercice();
+    this.props.onNextExercice();
   }
-  
-  if (isExercisePassed(props.correctRate) ) {
-    return (
-      <div className="jumbotron text-center">
-        <h1>✅ Good!</h1>
-        <p className="lead">{`Correct rate is ${parseInt(props.correctRate)}%`}</p>
-        <button className="btn btn-lg btn-outline-primary" onClick={handleTryAgain} >Try Again</button>
-        &nbsp;
-        <button className="btn btn-lg btn-primary" onClick={handleNextClick} >Next ⏎</button>
-      </div>
-    );
-  } else {
-    return (
-      <div className="jumbotron text-center">
-        <h1>📛 Try Again</h1>
-        <p className="lead">{`Your correct rate is ${parseInt(props.correctRate)}%, needs to be at least ${MINIMUM_CORRECT_RATE}%`}</p>
-        <button className="btn btn-lg btn-primary" onClick={handleTryAgain} >Try Again ⏎</button>
-      </div>
-    );
+
+  keyPressed = (event) => {
+    let symbol = event.key;
+
+    if (symbol !== "Enter") {
+      return;
+    }
+   
+    if (isExercisePassed(this.props.correctRate)) {
+      this.props.onNextExercice();
+    } else {
+      this.props.onTryAgain();
+    }
+  }
+
+  componentDidMount() {
+    document.addEventListener("keydown", this.keyPressed, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.keyPressed, false);
+  }
+
+  render() {
+    if (isExercisePassed(this.props.correctRate) ) {
+      return (
+        <div className="jumbotron text-center">
+          <h1>✅ Good!</h1>
+          <p className="lead">{`Correct rate is ${parseInt(this.props.correctRate)}%`}</p>
+          <button className="btn btn-lg btn-outline-primary" onClick={this.handleTryAgain} >Try Again</button>
+          &nbsp;
+          <button className="btn btn-lg btn-primary" onClick={this.handleNextClick} >Next ⏎</button>
+        </div>
+      );
+    } else {
+      return (
+        <div className="jumbotron text-center">
+          <h1>📛 Try Again</h1>
+          <p className="lead">{`Your correct rate is ${parseInt(this.props.correctRate)}%, needs to be at least ${MINIMUM_CORRECT_RATE}%`}</p>
+          <button className="btn btn-lg btn-primary" onClick={this.handleTryAgain} >Try Again ⏎</button>
+        </div>
+      );
+    }
   }
 }
 
