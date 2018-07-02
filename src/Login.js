@@ -1,33 +1,48 @@
-import React from 'react';
-import { Redirect } from 'react-router-dom';
-import { fakeAuth } from './auth';
+import React, { Component } from 'react';
+import { api } from './api';
+import { Link } from 'react-router-dom';
 
-class Login extends React.Component {
-  state = {
-    redirectToReferrer: false
-  };
+class Login extends Component {
 
-  login = () => {
-    fakeAuth.authenticate(() => {
-      this.setState({ redirectToReferrer: true });
-    });
-  };
+  submitUser(loginUser) {
+
+    api.post('/Users/login', loginUser).then(response => {
+      console.log(response);
+      this.props.onAuthenticate(response.data.userId);
+      localStorage.setItem('token', response.data.id);
+      localStorage.setItem('userId', response.data.userId);
+      this.props.history.push('/profile');
+    }).catch(err => console.log(err));
+  }
+
+  onSubmit(e) {
+    const loginUser = {
+      email: this.refs.email.value,
+      password: this.refs.password.value,
+    }
+    this.submitUser(loginUser);
+    e.preventDefault();
+  }
 
   render() {
-    const { from } = this.props.location.state || { from: { pathname: "/" } };
-    const { redirectToReferrer } = this.state;
-
-    if (redirectToReferrer) {
-      return <Redirect to={from} />;
-    }
-
     return (
       <div>
-        <p>You must log in to view the page at {from.pathname}</p>
-        <button onClick={this.login}>Log in</button>
+
+        <h1>Login</h1>
+        <form onSubmit={this.onSubmit.bind(this)}>
+          <div className="input-field">
+            <input type="text" name="email" ref="email" value="foo@bar.com" />
+            <label htmlFor="email">Email</label>
+          </div>
+          <div className="input-field">
+            <input type="text" name="password" ref="password" value="xxx" />
+            <label htmlFor="password">  Password</label>
+          </div>
+          <input type="submit" value="Login" className="btn blue darken-3" />
+          <Link className="btn right" to="/AddUsers">Create Account</Link>
+        </form>
       </div>
-    );
+    )
   }
 }
-
 export default Login;
