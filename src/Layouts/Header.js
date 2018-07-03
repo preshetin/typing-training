@@ -10,8 +10,8 @@ const Avatar = (props) => {
 
     return (
       <React.Fragment>
-        <div class="img-rounded profile-img" style={{ background: `url(${url}) 50% 50% no-repeat`, backgroundSize: "auto 100%"}}></div>
-        {email} <span class="caret"></span>
+        <div className="img-rounded profile-img" style={{ background: `url(${url}) 50% 50% no-repeat`, backgroundSize: "auto 100%"}}></div>
+        {email} <span className="caret"></span>
       </React.Fragment>
     );
 }

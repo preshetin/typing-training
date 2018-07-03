@@ -16,8 +16,29 @@ class Api {
   } 
 
   getUser() {
-    return this.api().get(`/Users/${this.userId}`);
+    return this.api().get(`/AppUsers/${this.userId}`);
   } 
+
+  getLessons() {
+    return this.api().get('/Lessons');
+  }
+  
+  getLessonExercises(id) {
+    return this.api().get(`/Lessons/${id}/exercises`);
+  }
+
+  getLessonLog(lessonId) {
+    return this.api()
+      .get(`/AppUsers/${this.userId}/lessonLogs?filter[where][lessonId]=${lessonId}`);
+  }
+
+  getLessonExercisesAndLog(lessonId, cb) {
+    axios.all([this.getLessonExercises(lessonId), this.getLessonLog(lessonId)])
+      .then(axios.spread(function (exercicesResponse, lessonLogResponse) {
+          const logData = lessonLogResponse.data.length ? lessonLogResponse.data[0].correctRate : null;
+          cb(exercicesResponse.data, logData);
+        }));
+  }
 }
 
  export default Api; 

@@ -66,7 +66,7 @@ class App extends Component {
           <Route render={ (props) => <Header userId={this.state.userId} user={this.state.user} onLogout={this.handleLogout}/> } />
           <div className="container">
             <Route exact path="/" component={LessonsList} />
-            <Route path="/lessons/1" component={TrainingRoom} />
+            <Route path="/lessons/:lessonId" component={TrainingRoom} />
             <Route path="/login" render={ (props) => <Login {...props} onAuthenticate={this.handleAuthenticate} /> } />
             <Route path="/profile" render={ (props) => <Profile {...props} auth={this.state.auth} /> } />
           </div>

@@ -1,19 +1,18 @@
 import React from 'react';
+import Api from './api';
 import ExerciseResult from './ExerciseResult';
 import TypingStrings from './TypingStrings';
 import Keyboard from './Keyboard';
 import { isExercisePassed, correctRate, exerciseIsFinished, getCharByGlobalIndex, getArrayIndexByGlobalIndex, getStringIndexByGlobalIndex } from './arrayConverter.js';
+import { prepareExercises } from './utils';
 
 class TrainingRoom extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      exercices: [
-        ["ff", "fff"],
-        ["jjj"],
-        ["fff", "ff", "jfj", "jjj"]
-      ],
+      lesson: null,
+      exercices: null,
       chars: [],
       currentIndex: 0,
       exerciseIndex: 0,
@@ -48,15 +47,19 @@ class TrainingRoom extends React.Component {
     st.currentIndex = 0;
     st.currentSymbol = "";
     st.exerciseIndex = index;
-    st.chars = this.prepareExerciseChars(st.exercices[st.exerciseIndex]);
+    st.chars = this.prepareExerciseChars(st.exercices[st.exerciseIndex].task);
     this.setState(st);
   }
 
   componentDidMount() {
-    const chars = this.prepareExerciseChars(this.state.exercices[0]);
-    let st = this.state;
-    st.chars = chars;
-    this.setState(st);
+    const api = new Api(localStorage.getItem('token'), localStorage.getItem('userId'));
+    api.getLessonExercisesAndLog(this.props.match.params.lessonId, (exersices, lessonLog) => {
+      let st = JSON.parse(JSON.stringify(this.state));
+      st.exercices = prepareExercises(exersices);
+      st.chars = this.prepareExerciseChars(st.exercices[0].task);
+      st.lessonLog = lessonLog;
+      this.setState(st);
+    });
   }
 
   handleCharacterType = (symbol) => {
