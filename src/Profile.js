@@ -1,5 +1,6 @@
 import React from 'react';
-import { api } from './api';
+import { Redirect } from 'react-router-dom';
+import Api from './api';
 
 class Profile extends React.Component {
   constructor(props) {
@@ -10,11 +11,19 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
-    api.get('/Users/1').then(res => this.setState({ user: res.data }));
+    if (! this.props.auth) {
+      return;
+    }
+    const api = new Api(this.props.auth.id, this.props.auth.userId);
+    api.getUser().then(res => this.setState({ user: res.data }));
   }
 
   render() {
-    if (this.state.user === null) {
+    if (! this.props.auth) {
+      return <Redirect to='/' />
+    }
+     
+    if ( ! this.state.user) {
       return "Loading...";
     } else {
       return <h1>{this.state.user.email}</h1>;

@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import { api } from './api';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 class Login extends Component {
 
   submitUser(loginUser) {
 
-    api.post('/Users/login', loginUser).then(response => {
-      console.log(response);
-      this.props.onAuthenticate(response.data.userId);
+    axios.post('http://localhost:3000/api/Users/login', loginUser).then(response => {
+      this.props.onAuthenticate(response.data);
       localStorage.setItem('token', response.data.id);
       localStorage.setItem('userId', response.data.userId);
       this.props.history.push('/profile');
