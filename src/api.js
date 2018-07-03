@@ -29,7 +29,11 @@ class Api {
 
   getLessonLog(lessonId) {
     return this.api()
-      .get(`/AppUsers/${this.userId}/lessonLogs?filter[where][lessonId]=${lessonId}`);
+      .get(`/AppUsers/${this.userId}/lessonLogs?filter[where][lessonId]=${lessonId}`)
+      .catch(err => {
+        console.log('hey', err);
+        return { data: [] };
+      });
   }
 
   getLessonExercisesAndLog(lessonId, cb) {

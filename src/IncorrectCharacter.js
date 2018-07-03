@@ -20,7 +20,7 @@ class IncorrectCharacter extends React.Component {
         ...prevState,
         visible: false
       }));
-    }, 300)
+    }, 200)
   }
 
   componentWillUnmount() {
