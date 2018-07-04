@@ -19,18 +19,14 @@ class TypingStrings extends React.Component {
     if (symbol.length !== 1) {
       return;
     }
-   //  if (this.state.currentIndex > 0 && getCharByGlobalIndex(this.state.chars, this.state.currentIndex - 1).typeStatus === 'correct') {
-   //    return; 
-   //  }
-
-   this.props.onCharacterType(symbol); 
+    this.props.onCharacterType(symbol); 
   }
 
-  componentDidMount(){
+  componentDidMount() {
     document.addEventListener("keydown", this.keyPressed, false);
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     document.removeEventListener("keydown", this.keyPressed, false);
   }
 

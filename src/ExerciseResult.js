@@ -28,6 +28,9 @@ class ExerciseResult extends React.Component {
 
   componentDidMount() {
     document.addEventListener("keydown", this.keyPressed, false);
+    if (isExercisePassed(this.props.correctRate)) {
+      this.props.onSaveLog(this.props.correctRate);
+    }
   }
 
   componentWillUnmount() {

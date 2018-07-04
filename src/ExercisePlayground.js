@@ -85,11 +85,11 @@ class ExercisePlayground extends React.Component {
     }
     
     if (exerciseIsFinished(this.state.chars, this.state.currentIndex)) {
-      this.props.onFinish(correctRate(this.state.chars));
       return <ExerciseResult 
         correctRate={correctRate(this.state.chars)} 
         onTryAgain={this.prepareTryAgain} 
         onNextExercice={this.prepareNextExercise}
+        onSaveLog={this.props.onSaveLog}
         />;
     }
 

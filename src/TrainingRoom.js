@@ -2,7 +2,7 @@ import React from 'react';
 import Api from './api';
 import ExercisePlayground from './ExercisePlayground';
 import ExerciseNav from './ExerciseNav';
-import { prepareExercises } from './utils';
+import * as utils from './utils';
 
 class TrainingRoom extends React.Component {
 
@@ -17,25 +17,35 @@ class TrainingRoom extends React.Component {
 
   componentDidMount() {
     const api = new Api(localStorage.getItem('token'), localStorage.getItem('userId'));
-    api.getLessonExercisesAndLog(this.props.match.params.lessonId, (exersices, lessonLog) => {
+    api.getLessonExercisesAndLog(this.props.match.params.lessonId, (exercises, lessonLog) => {
       let st = JSON.parse(JSON.stringify(this.state));
-      st.exercises = prepareExercises(exersices);
-      st.lessonLog = lessonLog;
+      st.exercises = utils.prepareExercises(exercises);
+      st.lessonLog = lessonLog ?
+        lessonLog : utils.generateEmptyLog(this.props.match.params.lessonId);
       this.setState(st);
     });
   }
 
-  handleFinish(correctRate) {
-    console.log('finished', correctRate);
+  handleSaveLog = (correctRate) => {
+    const lessonId = this.props.match.params.lessonId;
+    let st = JSON.parse(JSON.stringify(this.state));
+    st.lessonLog = utils.addExerciseDataToLessonLog({
+      correctRate,
+      id: this.state.exercises[this.state.exerciseIndex].id
+    }, st.lessonLog);
+    const api = new Api(localStorage.getItem('token'), localStorage.getItem('userId'));
+    api.storeOrUpdateLessonLog(st.lessonLog).then(res => {
+      let st = JSON.parse(JSON.stringify(this.state));
+      st.lessonLog = res.data;
+      this.setState(st);
+    })
+    
   }
 
   prepareNextExercise = () => {
     let st = JSON.parse(JSON.stringify(this.state));
     st.exerciseIndex++;
     this.setState(st);
-  }
-
-  prepareTryAgain = () => {
   }
 
   render() {
@@ -47,7 +57,7 @@ class TrainingRoom extends React.Component {
       <div>
         <ExercisePlayground
           exercise={this.state.exercises[this.state.exerciseIndex]}
-          onFinish={this.handleFinish} 
+          onSaveLog={this.handleSaveLog} 
           onNext={this.prepareNextExercise}
         />
         <div className="row">

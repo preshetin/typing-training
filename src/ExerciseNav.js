@@ -10,7 +10,7 @@ const ExerciseNav = (props) => {
   return (
     <div className="btn-group d-flex btn-group-sm" role="group" aria-label="...">
       {props.exercises.map((exercise, index) => (
-        <ExerciseNavLink index={index} isActive={index === props.activeIndex} />
+        <ExerciseNavLink key={index} index={index} isActive={index === props.activeIndex} />
       ))}
     </div>
   );

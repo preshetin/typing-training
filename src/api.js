@@ -31,7 +31,6 @@ class Api {
     return this.api()
       .get(`/AppUsers/${this.userId}/lessonLogs?filter[where][lessonId]=${lessonId}`)
       .catch(err => {
-        console.log('hey', err);
         return { data: [] };
       });
   }
@@ -39,9 +38,18 @@ class Api {
   getLessonExercisesAndLog(lessonId, cb) {
     axios.all([this.getLessonExercises(lessonId), this.getLessonLog(lessonId)])
       .then(axios.spread(function (exercicesResponse, lessonLogResponse) {
-          const logData = lessonLogResponse.data.length ? lessonLogResponse.data[0].correctRate : null;
+          const logData = lessonLogResponse.data.length ? lessonLogResponse.data[0] : null;
           cb(exercicesResponse.data, logData);
         }));
+  }
+
+  storeOrUpdateLessonLog(lessonLog) {
+    if (lessonLog.hasOwnProperty('id')) {
+      return this.api()
+        .put(`/AppUsers/${this.userId}/lessonLogs/${lessonLog.id}`, lessonLog);
+    } else {
+      return this.api().post(`/AppUsers/${this.userId}/lessonLogs`, lessonLog); 
+    }
   }
 }
 
