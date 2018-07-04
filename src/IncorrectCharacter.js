@@ -29,8 +29,8 @@ class IncorrectCharacter extends React.Component {
   
   render() {
     return <div style={{ display: "inline", position: "relative" }}>
-              <div className="Character" style={{ backgroundColor: "red" }}>{this.props.symbol}</div>
-              <div className={this.state.visible ? 'Character' : 'Character hide'} style={{ color: "red", position: "absolute", top: "11px", left: 0 }}>{this.state.incorrectSymbol}</div>
+              <div className="Character" style={{ backgroundColor: "#c82333", color: 'white' }}>{this.props.symbol}</div>
+              <div className={this.state.visible ? 'Character' : 'Character hide'} style={{ color: "#c82333", position: "absolute", top: "11px", left: 0 }}>{this.state.incorrectSymbol}</div>
            </div>;
   }
 }

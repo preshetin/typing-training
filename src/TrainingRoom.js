@@ -1,6 +1,7 @@
 import React from 'react';
 import Api from './api';
 import ExerciseResult from './ExerciseResult';
+import ExerciseNav from './ExerciseNav';
 import TypingStrings from './TypingStrings';
 import Keyboard from './Keyboard';
 import { isExercisePassed, correctRate, exerciseIsFinished, getCharByGlobalIndex, getArrayIndexByGlobalIndex, getStringIndexByGlobalIndex } from './arrayConverter.js';
@@ -12,7 +13,7 @@ class TrainingRoom extends React.Component {
     super(props);
     this.state = {
       lesson: null,
-      exercices: null,
+      exercises: [],
       chars: [],
       currentIndex: 0,
       exerciseIndex: 0,
@@ -47,7 +48,7 @@ class TrainingRoom extends React.Component {
     st.currentIndex = 0;
     st.currentSymbol = "";
     st.exerciseIndex = index;
-    st.chars = this.prepareExerciseChars(st.exercices[st.exerciseIndex].task);
+    st.chars = this.prepareExerciseChars(st.exercises[st.exerciseIndex].task);
     this.setState(st);
   }
 
@@ -55,8 +56,8 @@ class TrainingRoom extends React.Component {
     const api = new Api(localStorage.getItem('token'), localStorage.getItem('userId'));
     api.getLessonExercisesAndLog(this.props.match.params.lessonId, (exersices, lessonLog) => {
       let st = JSON.parse(JSON.stringify(this.state));
-      st.exercices = prepareExercises(exersices);
-      st.chars = this.prepareExerciseChars(st.exercices[0].task);
+      st.exercises = prepareExercises(exersices);
+      st.chars = this.prepareExerciseChars(st.exercises[0].task);
       st.lessonLog = lessonLog;
       this.setState(st);
     });
@@ -92,12 +93,18 @@ class TrainingRoom extends React.Component {
     return;
   }
 
+  saveLessonLog() {
+    
+  }
+
   render() {
     if (this.state.chars.length === 0) {
       return "Loading...";
     }
     
     if (exerciseIsFinished(this.state.chars, this.state.currentIndex)) {
+      this.saveLessonLog();
+
       return <ExerciseResult 
         correctRate={correctRate(this.state.chars)} 
         onTryAgain={this.prepareTryAgain} 
@@ -128,11 +135,7 @@ class TrainingRoom extends React.Component {
         <br />
         <div className="row">
           <div className="col">
-            <div className="btn-group d-flex btn-group-sm" role="group" aria-label="...">
-              <button type="button" className="btn btn-primary w-100"></button>
-              <button type="button" className="btn btn-primary w-100">Middle</button>
-              <button type="button" className="btn btn-secondary disabled w-100">Right</button>
-            </div>
+            <ExerciseNav exercises={this.state.exercises} activeIndex={this.state.exerciseIndex} />
           </div>
         </div>
       </div>
