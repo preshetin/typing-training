@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import TrainingRoom from './TrainingRoom';
 import Api from './api';
 import LessonsList from './LessonsList';
@@ -70,6 +70,7 @@ class App extends Component {
             <Route path="/login" render={ (props) => <Login {...props} onAuthenticate={this.handleAuthenticate} /> } />
             <Route path="/profile" render={ (props) => <Profile {...props} auth={this.state.auth} /> } />
           </div>
+          <Footer />
         </div>
       </Router>
     );

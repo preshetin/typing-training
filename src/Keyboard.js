@@ -29,6 +29,8 @@ class Keyboard extends Component {
       case "en":
         this.setState({ char: charEn });
         break;
+      default:
+        throw new Error('Unknown locale language');
     }
   }
   render() {

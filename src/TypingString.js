@@ -32,6 +32,8 @@ function TypingString(props) {
         case null:
         case 'fixing':
           return (index === props.currentIndex) ? <CurrentCharacter key={index} symbol={char.symbol} /> : <Character key={index} symbol={char.symbol} />
+        default:
+          throw new Error('Unknown character type');
       }
     })} 
     <br />

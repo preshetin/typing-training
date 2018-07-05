@@ -1,6 +1,5 @@
-import React, { Component, Fragment } from 'react';
+import React from 'react';
 import Api from './api';
-import { Link } from 'react-router-dom';
 import Lesson from './Lesson';
 
 class LessonsList extends React.Component {

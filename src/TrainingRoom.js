@@ -62,7 +62,11 @@ class TrainingRoom extends React.Component {
         />
         <div className="row">
           <div className="col">
-            <ExerciseNav exercises={this.state.exercises} activeIndex={this.state.exerciseIndex} />
+            <ExerciseNav
+              exercises={this.state.exercises}
+              activeIndex={this.state.exerciseIndex}
+              lessonLog={this.state.lessonLog}
+            />
           </div>
         </div>
       </div>
