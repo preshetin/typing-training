@@ -1,6 +1,6 @@
 import React from 'react';
 import Api from './api';
-import ExercisePlayground from './ExercisePlayground';
+import TaskPlayground from './TaskPlayground';
 import ExerciseNav from './ExerciseNav';
 import * as utils from './utils';
 
@@ -52,8 +52,8 @@ class TrainingRoom extends React.Component {
 
     return (
       <div>
-        <ExercisePlayground
-          exercise={this.state.exercises[parseInt(this.props.match.params.exerciseNumber) - 1]}
+        <TaskPlayground
+          task={this.state.exercises[parseInt(this.props.match.params.exerciseNumber) - 1].task}
           onSaveLog={this.handleSaveLog} 
           onNext={this.prepareNextExercise}
         />
@@ -63,7 +63,6 @@ class TrainingRoom extends React.Component {
               exercises={this.state.exercises}
               activeIndex={parseInt(this.props.match.params.exerciseNumber) - 1}
               lessonLog={this.state.lessonLog}
-              onChangeExercise={this.prepareExercise}
             />
           </div>
         </div>

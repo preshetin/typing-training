@@ -1,10 +1,10 @@
 import React from 'react';
 import TypingStrings from './TypingStrings';
-import ExerciseResult from './ExerciseResult';
+import TaskResult from './TaskResult';
 import Keyboard from './Keyboard';
 import { isExercisePassed, correctRate, exerciseIsFinished, getCharByGlobalIndex, getArrayIndexByGlobalIndex, getStringIndexByGlobalIndex } from './arrayConverter.js';
 
-class ExercisePlayground extends React.Component {
+class TaskPlayground extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,9 +14,9 @@ class ExercisePlayground extends React.Component {
     };
   }
 
-  prepareExerciseChars(exercise) {
+  prepareTaskChars(task) {
     const chars = [];
-    exercise.forEach((str, index) => {
+    task.forEach((str, index) => {
       chars.push([]);
       str.split('').forEach((symbol, charIndex) => {
         chars[index].push({ symbol, typeStatus: null })
@@ -73,7 +73,7 @@ class ExercisePlayground extends React.Component {
 
   prepareComponent() {
     let st = JSON.parse(JSON.stringify(this.state));
-    st.chars = this.prepareExerciseChars(this.props.exercise.task);
+    st.chars = this.prepareTaskChars(this.props.task);
     st.currentIndex = 0;
     st.currentSymbol = "";
     this.setState(st);
@@ -85,7 +85,7 @@ class ExercisePlayground extends React.Component {
     }
     
     if (exerciseIsFinished(this.state.chars, this.state.currentIndex)) {
-      return <ExerciseResult 
+      return <TaskResult 
         correctRate={correctRate(this.state.chars)} 
         onTryAgain={this.prepareTryAgain} 
         onNextExercice={this.prepareNextExercise}
@@ -119,4 +119,4 @@ class ExercisePlayground extends React.Component {
   }
 }
 
-export default ExercisePlayground;
+export default TaskPlayground;

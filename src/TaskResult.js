@@ -1,7 +1,7 @@
 import React from 'react';
 import { isExercisePassed, MINIMUM_CORRECT_RATE } from './arrayConverter';
 
-class ExerciseResult extends React.Component {
+class TaskResult extends React.Component {
   
   handleTryAgain = () => {
     this.props.onTryAgain();
@@ -60,4 +60,4 @@ class ExerciseResult extends React.Component {
   }
 }
 
-export default ExerciseResult;
+export default TaskResult;
