@@ -5,14 +5,10 @@ import Lesson from './Lesson';
 class LessonsList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      lessons: [],
-      lessonLogs: []
-    }
   }
 
   getCorrectRateForLesson(lesson) {
-    const logsArr = this.state.lessonLogs.filter(l => l.lessonId === lesson.id);
+    const logsArr = this.props.lessonLogs.filter(l => l.lessonId === lesson.id);
     if (logsArr.length) {
       return logsArr[0].logData.length / lesson.exercisesCount * 100;
     }
@@ -20,15 +16,15 @@ class LessonsList extends React.Component {
   }
 
   componentDidMount() {
-    const api = new Api(localStorage.getItem('token'), localStorage.getItem('userId'));
-    api.getLessons().then(res => this.setState({ lessons: res.data })); 
-    api.getUserLessonLogs().then(res => this.setState({ lessonLogs: res.data }));
+    console.log('LessonsList componentDidMount');
+    this.props.onMount();
   }
 
   render() {
+    console.log('LessonsList render');
     return (
       <div className="card-deck text-center">
-        {this.state.lessons.map(lesson => (
+        {this.props.lessons.map(lesson => (
           <Lesson
             key={lesson.id}
             lesson={lesson}

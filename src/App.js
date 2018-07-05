@@ -20,6 +20,8 @@ class App extends Component {
     this.state = {
       userId: null,
       //user: { email: "preshetin@gmail.com" }
+      lessons: [],
+      lessonLogs: []
     }
 
   }
@@ -39,10 +41,12 @@ class App extends Component {
     st.user = null;
     st.auth = null;
     st.userId = null;
+    st.lessonLogs = [];
     this.setState(st);
     
   }
   componentDidMount() {
+    console.log('App componentDidMount');
     if ( ! localStorage.getItem('token')) {
       return;
     }
@@ -63,13 +67,28 @@ class App extends Component {
     }).catch(err => console.log(err));
   }
 
+  handeLessonListMount = () => {
+    const api = new Api(localStorage.getItem('token'), localStorage.getItem('userId'));
+    api.getLessons().then(res => {
+      let st = JSON.parse(JSON.stringify(this.state));
+      st.lessons = res.data;
+      this.setState(st);
+    }); 
+    api.getUserLessonLogs().then(res => {
+      let st = JSON.parse(JSON.stringify(this.state));
+      st.lessonLogs = res.data;
+      this.setState(st);
+    });
+  }
+
   render() {
+    console.log('App render');
     return (
       <Router>
         <div>
           <Route render={ (props) => <Header userId={this.state.userId} user={this.state.user} onLogout={this.handleLogout}/> } />
           <div className="container">
-            <Route exact path="/" component={LessonsList} />
+            <Route exact path="/" render={ (props) => <LessonsList {...props} onMount={this.handeLessonListMount} lessonLogs={this.state.lessonLogs} lessons={this.state.lessons} /> } />
             <Route path="/lessons/:lessonId/:exerciseNumber" component={LessonRoom} />
             <Route path="/login" render={ (props) => <Login {...props} onAuthenticate={this.handleAuthenticate} /> } />
             <Route path="/profile" render={ (props) => <Profile {...props} auth={this.state.auth} /> } />
