@@ -20,7 +20,14 @@ class Api {
   } 
 
   getLessons() {
-    return this.api().get('/Lessons');
+    return this.api().get('/Lessons?filter={%22counts%22:%22exercises%22}');
+  }
+  
+  getUserLessonLogs() {
+    return this.api().get(`/AppUsers/${this.userId}/lessonLogs`)
+             .catch(err => {
+               return { data: [] };
+             });
   }
   
   getLessonExercises(id) {

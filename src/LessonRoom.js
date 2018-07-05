@@ -4,7 +4,7 @@ import TaskPlayground from './TaskPlayground';
 import ExerciseNav from './ExerciseNav';
 import * as utils from './utils';
 
-class TrainingRoom extends React.Component {
+class LessonRoom extends React.Component {
 
   constructor(props) {
     super(props);
@@ -71,4 +71,4 @@ class TrainingRoom extends React.Component {
   }
 }
 
-export default TrainingRoom;
+export default LessonRoom;

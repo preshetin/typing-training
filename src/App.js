@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import TrainingRoom from './TrainingRoom';
+import LessonRoom from './LessonRoom';
 import Api from './api';
 import LessonsList from './LessonsList';
 import Login from './Login';
@@ -9,6 +12,7 @@ import Footer from './Layouts/Footer';
 import Profile from './Profile';
 import './App.css';
 
+library.add(faCheckCircle);
 
 class App extends Component {
   constructor(props) {
@@ -66,7 +70,7 @@ class App extends Component {
           <Route render={ (props) => <Header userId={this.state.userId} user={this.state.user} onLogout={this.handleLogout}/> } />
           <div className="container">
             <Route exact path="/" component={LessonsList} />
-            <Route path="/lessons/:lessonId/:exerciseNumber" component={TrainingRoom} />
+            <Route path="/lessons/:lessonId/:exerciseNumber" component={LessonRoom} />
             <Route path="/login" render={ (props) => <Login {...props} onAuthenticate={this.handleAuthenticate} /> } />
             <Route path="/profile" render={ (props) => <Profile {...props} auth={this.state.auth} /> } />
           </div>
