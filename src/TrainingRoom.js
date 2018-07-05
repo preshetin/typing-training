@@ -10,8 +10,7 @@ class TrainingRoom extends React.Component {
     super(props);
     this.state = {
       lesson: null,
-      exercises: null,
-      exerciseIndex: 0
+      exercises: null
     }
   }
 
@@ -31,7 +30,7 @@ class TrainingRoom extends React.Component {
     let st = JSON.parse(JSON.stringify(this.state));
     st.lessonLog = utils.addExerciseDataToLessonLog({
       correctRate,
-      id: this.state.exercises[this.state.exerciseIndex].id
+      id: this.state.exercises[parseInt(this.props.match.params.exerciseNumber) - 1].id
     }, st.lessonLog);
     const api = new Api(localStorage.getItem('token'), localStorage.getItem('userId'));
     api.storeOrUpdateLessonLog(st.lessonLog).then(res => {
@@ -43,9 +42,7 @@ class TrainingRoom extends React.Component {
   }
 
   prepareNextExercise = () => {
-    let st = JSON.parse(JSON.stringify(this.state));
-    st.exerciseIndex++;
-    this.setState(st);
+    this.props.history.push(`/lessons/${this.props.match.params.lessonId}/${parseInt(this.props.match.params.exerciseNumber) + 1}`);
   }
 
   render() {
@@ -56,7 +53,7 @@ class TrainingRoom extends React.Component {
     return (
       <div>
         <ExercisePlayground
-          exercise={this.state.exercises[this.state.exerciseIndex]}
+          exercise={this.state.exercises[parseInt(this.props.match.params.exerciseNumber) - 1]}
           onSaveLog={this.handleSaveLog} 
           onNext={this.prepareNextExercise}
         />
@@ -64,8 +61,9 @@ class TrainingRoom extends React.Component {
           <div className="col">
             <ExerciseNav
               exercises={this.state.exercises}
-              activeIndex={this.state.exerciseIndex}
+              activeIndex={parseInt(this.props.match.params.exerciseNumber) - 1}
               lessonLog={this.state.lessonLog}
+              onChangeExercise={this.prepareExercise}
             />
           </div>
         </div>
