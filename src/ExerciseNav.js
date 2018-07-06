@@ -15,7 +15,7 @@ const ExerciseNav = (props) => {
           key={index}
           index={index}
           isActive={index === props.activeIndex}
-          isCompleted={props.lessonLog.logData.filter(d => d.id === exercise.id).length === 1}
+          isCompleted={props.isLoggedIn && props.lessonLog.logData.filter(d => d.id === exercise.id).length === 1}
         />
       ))}
     </div>

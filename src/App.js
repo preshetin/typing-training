@@ -21,7 +21,8 @@ class App extends Component {
       userId: null,
       //user: { email: "preshetin@gmail.com" }
       lessons: [],
-      lessonLogs: []
+      lessonLogs: [],
+      isLoggedIn: false
     }
 
   }
@@ -30,6 +31,7 @@ class App extends Component {
     let st = JSON.parse(JSON.stringify(this.state));
     st.userId = authData.userId;
     st.auth = authData;
+    st.isLoggedIn = true;
     this.setState(st);
     this.getUserInfo(authData.id, authData.userId);
   }
@@ -41,6 +43,7 @@ class App extends Component {
     st.user = null;
     st.auth = null;
     st.userId = null;
+    st.isLoggedIn = false;
     st.lessonLogs = [];
     this.setState(st);
     
@@ -63,6 +66,7 @@ class App extends Component {
       st.user = res.data;
       st.userId = res.data.id;
       st.auth = { id: token, userId };
+      st.isLoggedIn = true;
       this.setState(st);
     }).catch(err => console.log(err));
   }
@@ -89,9 +93,9 @@ class App extends Component {
           <Route render={ (props) => <Header userId={this.state.userId} user={this.state.user} onLogout={this.handleLogout}/> } />
           <div className="container">
             <Route exact path="/" render={ (props) => <LessonsList {...props} onMount={this.handeLessonListMount} lessonLogs={this.state.lessonLogs} lessons={this.state.lessons} /> } />
-            <Route path="/lessons/:lessonId/:exerciseNumber" component={LessonRoom} />
-            <Route path="/login" render={ (props) => <Login {...props} onAuthenticate={this.handleAuthenticate} /> } />
+            <Route path="/lessons/:lessonId/:exerciseNumber" render={ (props) => <LessonRoom {...props} isLoggedIn={this.state.isLoggedIn} /> } />
             <Route path="/profile" render={ (props) => <Profile {...props} auth={this.state.auth} /> } />
+            <Route path="/login" render={ (props) => <Login {...props} onAuthenticate={this.handleAuthenticate} /> } />
           </div>
           <Footer />
         </div>

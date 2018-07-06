@@ -15,6 +15,7 @@ class LessonRoom extends React.Component {
   }
 
   componentDidMount() {
+    console.log('LessonRoom componentDidMount');
     const api = new Api(localStorage.getItem('token'), localStorage.getItem('userId'));
     api.getLessonExercisesAndLog(this.props.match.params.lessonId, (exercises, lessonLog) => {
       let st = JSON.parse(JSON.stringify(this.state));
@@ -63,6 +64,7 @@ class LessonRoom extends React.Component {
               exercises={this.state.exercises}
               activeIndex={parseInt(this.props.match.params.exerciseNumber) - 1}
               lessonLog={this.state.lessonLog}
+              isLoggedIn={this.props.isLoggedIn}
             />
           </div>
         </div>
