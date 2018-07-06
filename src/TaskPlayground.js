@@ -86,10 +86,10 @@ class TaskPlayground extends React.Component {
     
     if (exerciseIsFinished(this.state.chars, this.state.currentIndex)) {
       return <TaskResult 
+        {...this.props}
         correctRate={correctRate(this.state.chars)} 
         onTryAgain={this.prepareTryAgain} 
         onNextExercice={this.prepareNextExercise}
-        onSaveLog={this.props.onSaveLog}
         />;
     }
 

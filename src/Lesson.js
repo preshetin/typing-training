@@ -1,4 +1,5 @@
 import React from 'react';
+import LessonComplete from './LessonComplete'; 
 import Api from './api';
 import { Redirect } from 'react-router-dom';
 import * as utils from './utils';
@@ -48,7 +49,11 @@ class Lesson extends React.Component {
     }
 
     if (this.state.lessonLog.logData.length === this.state.exercises.length) {
-      return 'lesson is completed';
+      const exercisesWithLogs = this.state.exercises.map(ex => {
+        ex.stat = this.state.lessonLog.logData.find(ld => ld.id === ex.id);
+        return ex; 
+      });
+      return <LessonComplete {...this.props} exercisesWithLogs={exercisesWithLogs} />;
     }
 
     return <Redirect to={`/lessons/${lessonId}/${this.upcomingLessonNumber()}`} />

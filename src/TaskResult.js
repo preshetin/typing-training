@@ -1,5 +1,6 @@
 import React from 'react';
 import { isExercisePassed, MINIMUM_CORRECT_RATE } from './arrayConverter';
+import { Link } from 'react-router-dom';
 
 class TaskResult extends React.Component {
   
@@ -45,7 +46,7 @@ class TaskResult extends React.Component {
           <p className="lead">{`Correct rate is ${parseInt(this.props.correctRate)}%`}</p>
           <button className="btn btn-lg btn-outline-primary" onClick={this.handleTryAgain} >Try Again</button>
           &nbsp;
-          <button className="btn btn-lg btn-primary" onClick={this.handleNextClick} >Next ⏎</button>
+          <Link className="btn btn-lg btn-primary" to={this.props.isLast ? `/lessons/${this.props.match.params.lessonId}` : `/lessons/${this.props.match.params.lessonId}/${this.props.match.params.exerciseNumber}`} >Next ⏎</Link>
         </div>
       );
     } else {

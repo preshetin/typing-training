@@ -43,7 +43,12 @@ class LessonRoom extends React.Component {
   }
 
   prepareNextExercise = () => {
-    this.props.history.push(`/lessons/${this.props.match.params.lessonId}/${parseInt(this.props.match.params.exerciseNumber) + 1}`);
+    const currentExercise = this.state.exercises[parseInt(this.props.match.params.exerciseNumber) - 1]; 
+    if (this.state.exercises[this.state.exercises.length - 1].id === currentExercise.id) {
+      this.props.history.push(`/lessons/${this.props.match.params.lessonId}`);
+    } else {
+      this.props.history.push(`/lessons/${this.props.match.params.lessonId}/${parseInt(this.props.match.params.exerciseNumber) + 1}`);
+    }
   }
 
   render() {
@@ -51,12 +56,16 @@ class LessonRoom extends React.Component {
       return "Loading...";
     }
 
+    const currentExercise = this.state.exercises[parseInt(this.props.match.params.exerciseNumber) - 1]; 
+
     return (
       <div>
         <TaskPlayground
-          task={this.state.exercises[parseInt(this.props.match.params.exerciseNumber) - 1].task}
+          {...this.props}
+          task={currentExercise.task}
           onSaveLog={this.handleSaveLog} 
           onNext={this.prepareNextExercise}
+          isLast={this.state.exercises[this.state.exercises.length - 1].id === currentExercise.id}
         />
         <div className="row">
           <div className="col">
