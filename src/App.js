@@ -9,6 +9,7 @@ import LessonsList from './LessonsList';
 import Lesson from './Lesson';
 import Login from './Login';
 import Header from './Layouts/Header';
+import IsLoggedInAlert from './IsLoggedInAlert';
 import Footer from './Layouts/Footer';
 import Profile from './Profile';
 import './App.css';
@@ -50,7 +51,6 @@ class App extends Component {
     
   }
   componentDidMount() {
-    console.log('App componentDidMount');
     if ( ! localStorage.getItem('token')) {
       return;
     }
@@ -87,12 +87,12 @@ class App extends Component {
   }
 
   render() {
-    console.log('App render');
     return (
       <Router>
         <div>
           <Route render={ (props) => <Header userId={this.state.userId} user={this.state.user} onLogout={this.handleLogout}/> } />
           <div className="container">
+            <IsLoggedInAlert isLoggedIn={this.state.isLoggedIn} />
             <Switch>            
               <Route exact path="/" render={ (props) => <LessonsList {...props} onMount={this.handeLessonListMount} lessonLogs={this.state.lessonLogs} lessons={this.state.lessons} /> } />
               <Route exact path='/lessons/:lessonId' component={Lesson} />

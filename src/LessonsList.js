@@ -16,12 +16,10 @@ class LessonsList extends React.Component {
   }
 
   componentDidMount() {
-    console.log('LessonsList componentDidMount');
     this.props.onMount();
   }
 
   render() {
-    console.log('LessonsList render');
     return (
       <div className="card-deck text-center">
         {this.props.lessons.map(lesson => (
