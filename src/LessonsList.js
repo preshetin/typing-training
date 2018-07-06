@@ -1,6 +1,6 @@
 import React from 'react';
 import Api from './api';
-import Lesson from './Lesson';
+import LessonCard from './LessonCard';
 
 class LessonsList extends React.Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class LessonsList extends React.Component {
     return (
       <div className="card-deck text-center">
         {this.props.lessons.map(lesson => (
-          <Lesson
+          <LessonCard
             key={lesson.id}
             lesson={lesson}
             completeRate={this.getCorrectRateForLesson(lesson)}

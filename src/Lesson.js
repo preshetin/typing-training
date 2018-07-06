@@ -1,32 +1,59 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Api from './api';
+import { Redirect } from 'react-router-dom';
+import * as utils from './utils';
 
-const CompleteRate = props => {
-  switch(props.rate) {
-    case 0:
-      return null;
-    case 100:
-      return <FontAwesomeIcon style={{ color: "green", fontSize: "400%" }} icon="check-circle" />;
-    default:
-      return (
-        <div className="progress">
-          <div className="progress-bar bg-success" role="progressbar" style={{ "width": "25%" }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-      );
+class Lesson extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      exercises: null, 
+      lessonLog: null
+    }
   }
-}
 
-const Lesson = (props) => {
-  return (
-        <div className="card box-shadow">
-          <div className="card-body">
-            <CompleteRate rate={props.completeRate} />
-            <h1 className="card-title pricing-card-title">{ props.lesson.title }</h1>
-            <Link to={`/lessons/${props.lesson.id}/1`} className="btn btn-lg btn-block btn-primary">Start</Link>
-          </div>
-        </div>
-  ); 
+  componentDidMount() {
+    console.log('Lesson componentDidMount');
+    const api = new Api(localStorage.getItem('token'), localStorage.getItem('userId'));
+    api.getLessonExercisesAndLog(this.props.match.params.lessonId, (exercises, lessonLog) => {
+      let st = JSON.parse(JSON.stringify(this.state));
+      st.exercises = utils.prepareExercises(exercises);
+      st.lessonLog = lessonLog ?
+        lessonLog : utils.generateEmptyLog(this.props.match.params.lessonId);
+      this.setState(st);
+    });
+  }
+
+  upcomingLessonNumber() {
+    let upcomingLessonNumber = 1;
+    var BreakException = {};
+    try {
+      this.state.exercises.forEach((ex, index) => {
+        if (this.state.lessonLog.logData.filter(lD => lD.id === ex.id).length === 0) {
+          upcomingLessonNumber = index + 1;
+          throw BreakException;
+        } 
+      });
+    } catch (e) {
+      if (e !== BreakException) throw e;
+    }
+    return upcomingLessonNumber;
+  }
+
+  render() {
+    const lessonId = this.props.match.params.lessonId; 
+
+    if (this.state.exercises === null) {
+      return `Loading lesson ${lessonId}`;
+    }
+
+    if (this.state.lessonLog.logData.length === this.state.exercises.length) {
+      return 'lesson is completed';
+    }
+
+    return <Redirect to={`/lessons/${lessonId}/${this.upcomingLessonNumber()}`} />
+
+  }
 }
 
 export default Lesson;

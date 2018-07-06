@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LessonRoom from './LessonRoom';
 import Api from './api';
 import LessonsList from './LessonsList';
+import Lesson from './Lesson';
 import Login from './Login';
 import Header from './Layouts/Header';
 import Footer from './Layouts/Footer';
@@ -70,7 +71,7 @@ class App extends Component {
       this.setState(st);
     }).catch(err => console.log(err));
   }
-
+  
   handeLessonListMount = () => {
     const api = new Api(localStorage.getItem('token'), localStorage.getItem('userId'));
     api.getLessons().then(res => {
@@ -92,10 +93,13 @@ class App extends Component {
         <div>
           <Route render={ (props) => <Header userId={this.state.userId} user={this.state.user} onLogout={this.handleLogout}/> } />
           <div className="container">
-            <Route exact path="/" render={ (props) => <LessonsList {...props} onMount={this.handeLessonListMount} lessonLogs={this.state.lessonLogs} lessons={this.state.lessons} /> } />
-            <Route path="/lessons/:lessonId/:exerciseNumber" render={ (props) => <LessonRoom {...props} isLoggedIn={this.state.isLoggedIn} /> } />
-            <Route path="/profile" render={ (props) => <Profile {...props} auth={this.state.auth} /> } />
-            <Route path="/login" render={ (props) => <Login {...props} onAuthenticate={this.handleAuthenticate} /> } />
+            <Switch>            
+              <Route exact path="/" render={ (props) => <LessonsList {...props} onMount={this.handeLessonListMount} lessonLogs={this.state.lessonLogs} lessons={this.state.lessons} /> } />
+              <Route exact path='/lessons/:lessonId' component={Lesson} />
+              <Route path="/lessons/:lessonId/:exerciseNumber" render={ (props) => <LessonRoom {...props} isLoggedIn={this.state.isLoggedIn} /> } />
+              <Route path="/profile" render={ (props) => <Profile {...props} auth={this.state.auth} /> } />
+              <Route path="/login" render={ (props) => <Login {...props} onAuthenticate={this.handleAuthenticate} /> } />
+            </Switch>
           </div>
           <Footer />
         </div>
