@@ -31,7 +31,8 @@ class Api {
   }
   
   getLessonExercises(id) {
-    return this.api().get(`/Lessons/${id}/exercises`);
+    const uri = encodeURI(`/Lessons/${id}/exercises?filter[order]=sort asc`)
+    return this.api().get(uri);
   }
 
   getLessonLog(lessonId) {
