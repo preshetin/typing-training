@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { API_URL } from './api';
 import { Link } from 'react-router-dom';
 
 class Login extends Component {
 
   submitUser(loginUser) {
 
-    axios.post('http://localhost:3000/api/AppUsers/login', loginUser).then(response => {
+    axios.post(`${API_URL}/AppUsers/login`, loginUser).then(response => {
       this.props.onAuthenticate(response.data);
       localStorage.setItem('token', response.data.id);
       localStorage.setItem('userId', response.data.userId);

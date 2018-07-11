@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+// export const API_URL = 'http://localhost:3000/api';
+export const API_URL = 'https://typing-training-api.herokuapp.com/api';
+
 class Api {
 
   constructor(token, userId) {
@@ -9,7 +12,7 @@ class Api {
 
   api() {
     return axios.create({
-        baseURL: 'http://localhost:3000/api',
+        baseURL: API_URL,
         timeout: 1000,
         headers: {'Authorization': this.token}
       })
