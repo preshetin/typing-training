@@ -21,16 +21,20 @@ class LessonsList extends React.Component {
 
   render() {
     return (
-      <div className="card-deck text-center">
-        {this.props.lessons.map(lesson => (
-          <LessonCard
-            key={lesson.id}
-            lesson={lesson}
-            completeRate={this.getCorrectRateForLesson(lesson)}
-          />
-        ))}
+      <div class="row justify-content-md-center">
+        <div className="col-md-9">
+          <div className="card-deck text-center">
+            {this.props.lessons.map(lesson => (
+              <LessonCard
+                key={lesson.id}
+                lesson={lesson}
+                completeRate={this.getCorrectRateForLesson(lesson)}
+              />
+            ))}
+          </div>
+        </div>
       </div>
-    )
+    );
   }
 }
 

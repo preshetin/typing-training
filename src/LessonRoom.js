@@ -59,23 +59,24 @@ class LessonRoom extends React.Component {
     const currentExercise = this.state.exercises[parseInt(this.props.match.params.exerciseNumber) - 1]; 
 
     return (
-      <div>
-        <TaskPlayground
-          {...this.props}
-          task={currentExercise.task}
-          onSaveLog={this.handleSaveLog} 
-          onNext={this.prepareNextExercise}
-          isLast={this.state.exercises[this.state.exercises.length - 1].id === currentExercise.id}
-        />
-        <div className="row">
-          <div className="col">
-            <ExerciseNav
-              exercises={this.state.exercises}
-              activeIndex={parseInt(this.props.match.params.exerciseNumber) - 1}
-              lessonLog={this.state.lessonLog}
-              isLoggedIn={this.props.isLoggedIn}
-            />
-          </div>
+      <div class="row justify-content-md-center">
+        <div className="col-md-9">
+          <TaskPlayground
+            {...this.props}
+            task={currentExercise.task}
+            onSaveLog={this.handleSaveLog} 
+            onNext={this.prepareNextExercise}
+            isLast={this.state.exercises[this.state.exercises.length - 1].id === currentExercise.id}
+          />
+        </div>
+        <div class="w-100"></div>
+        <div className="col-md-9">
+          <ExerciseNav
+            exercises={this.state.exercises}
+            activeIndex={parseInt(this.props.match.params.exerciseNumber) - 1}
+            lessonLog={this.state.lessonLog}
+            isLoggedIn={this.props.isLoggedIn}
+          />
         </div>
       </div>
     );
