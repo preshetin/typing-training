@@ -111,7 +111,7 @@ class TaskPlayground extends React.Component {
             </div>   
           </div>
           <div className="row">
-            <Keyboard lang="en" hide/>
+            <Keyboard lang="en" />
           </div>
           <br />
       </React.Fragment>

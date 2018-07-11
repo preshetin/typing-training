@@ -13,7 +13,7 @@ class Api {
   api() {
     return axios.create({
         baseURL: API_URL,
-        timeout: 1000,
+      //     timeout: 1000,
         headers: {'Authorization': this.token}
       })
   } 
