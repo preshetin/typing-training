@@ -101,7 +101,6 @@ class App extends Component {
               <Route path="/login" render={ (props) => <Login {...props} onAuthenticate={this.handleAuthenticate} /> } />
             </Switch>
           </div>
-          <Footer />
         </div>
       </Router>
     );

@@ -25,7 +25,6 @@ list-style: none;
     height: 40px;
     line-height: 40px;
     text-align: center;
-    background: #fff;
     border: 1px solid #e5e5e5;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -55,8 +54,12 @@ list-style: none;
         text-transform: uppercase;
         }
         #keyboard .space {
-        clear: left;
-        width: 681px;
+        width: 430px;
+        float: left;
+        }
+        .buffer {
+          width: 107px !important;
+          border: 1px !important;
         }
         .on {
         display: none;

@@ -111,7 +111,7 @@ class TaskPlayground extends React.Component {
             </div>   
           </div>
           <div className="row">
-            <Keyboard lang="en" />
+            <Keyboard lang="ru" selectedKey={getCharByGlobalIndex(this.state.chars, this.state.currentIndex).symbol} />
           </div>
           <br />
       </React.Fragment>
