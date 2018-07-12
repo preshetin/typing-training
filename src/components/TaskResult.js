@@ -1,5 +1,5 @@
 import React from 'react';
-import { isExercisePassed, MINIMUM_CORRECT_RATE } from './arrayConverter';
+import { isExercisePassed, MINIMUM_CORRECT_RATE } from '../arrayConverter';
 import { Link } from 'react-router-dom';
 
 class TaskResult extends React.Component {

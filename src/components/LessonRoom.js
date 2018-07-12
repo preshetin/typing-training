@@ -1,8 +1,8 @@
 import React from 'react';
-import Api from './api';
+import Api from '../api';
 import TaskPlayground from './TaskPlayground';
 import ExerciseNav from './ExerciseNav';
-import * as utils from './utils';
+import * as utils from '../utils';
 
 class LessonRoom extends React.Component {
 

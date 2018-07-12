@@ -2,7 +2,7 @@ import React from 'react';
 import TypingStrings from './TypingStrings';
 import TaskResult from './TaskResult';
 import Keyboard from './Keyboard';
-import { isExercisePassed, correctRate, exerciseIsFinished, getCharByGlobalIndex, getArrayIndexByGlobalIndex, getStringIndexByGlobalIndex } from './arrayConverter.js';
+import { isExercisePassed, correctRate, exerciseIsFinished, getCharByGlobalIndex, getArrayIndexByGlobalIndex, getStringIndexByGlobalIndex } from '../arrayConverter.js';
 
 class TaskPlayground extends React.Component {
   constructor(props) {

@@ -1,8 +1,8 @@
 import React from 'react';
 import LessonComplete from './LessonComplete'; 
-import Api from './api';
+import Api from '../api';
 import { Redirect } from 'react-router-dom';
-import * as utils from './utils';
+import * as utils from '../utils';
 
 class Lesson extends React.Component {
   constructor(props) {

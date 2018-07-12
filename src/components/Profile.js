@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import Api from './api';
+import Api from '../api';
 
 class Profile extends React.Component {
   constructor(props) {

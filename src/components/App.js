@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LessonRoom from './LessonRoom';
-import Api from './api';
+import Api from '../api';
 import LessonsList from './LessonsList';
 import Lesson from './Lesson';
 import Login from './Login';

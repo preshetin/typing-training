@@ -1,6 +1,6 @@
 import React from 'react';
 import TypingString from './TypingString';
-import { getArrayIndexByGlobalIndex, getStringIndexByGlobalIndex } from './arrayConverter.js';
+import { getArrayIndexByGlobalIndex, getStringIndexByGlobalIndex } from '../arrayConverter.js';
 
 class TypingStrings extends React.Component {
   constructor(props) {

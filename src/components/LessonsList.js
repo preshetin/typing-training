@@ -1,5 +1,5 @@
 import React from 'react';
-import Api from './api';
+import Api from '../api';
 import LessonCard from './LessonCard';
 
 class LessonsList extends React.Component {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { API_URL } from './api';
+import { API_URL } from '../api';
 import { Link } from 'react-router-dom';
 
 class Login extends Component {
