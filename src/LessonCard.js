@@ -17,16 +17,16 @@ const CompleteRate = props => {
   }
 }
 
-const LessonCard = (props) => {
-  return (
-        <div className="card box-shadow">
-          <div className="card-body">
-            <CompleteRate rate={props.completeRate} />
-            <h1 className="card-title pricing-card-title">{ props.lesson.title }</h1>
-            <Link to={`/lessons/${props.lesson.id}`} className="btn btn-lg btn-block btn-primary">Go</Link>
-          </div>
-        </div>
-  ); 
-}
+const LessonCard = (props) =>  (
+  <div className="card box-shadow">
+    <div className="card-body">
+      <CompleteRate rate={props.completeRate} />
+      <h1 className="card-title pricing-card-title">
+        <div dangerouslySetInnerHTML={{__html: props.lesson.title}} />
+      </h1>
+      <Link to={`/lessons/${props.lesson.id}`} className="btn btn-lg btn-block btn-primary">Go</Link>
+    </div>
+  </div>
+); 
 
 export default LessonCard;
