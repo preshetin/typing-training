@@ -16,7 +16,7 @@ class LessonsList extends React.Component {
 
   render() {
     return (
-      <div class="row justify-content-md-center">
+      <div className="row justify-content-md-center">
           <div className="card-deck text-center">
             {this.props.lessons.map(lesson => (
               <div key={lesson.id} className="col-md-6" style={{ marginBottom: "25px" }}>

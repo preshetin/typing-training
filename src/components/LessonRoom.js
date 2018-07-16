@@ -58,12 +58,12 @@ class LessonRoom extends React.Component {
 
     return (
       <div>
-        <div class="row justify-content-md-center">
+        <div className="row justify-content-md-center">
           <div className="col-md-12" >
-              <IsLoggedInAlert authUser={this.state.authUser} />
+              <IsLoggedInAlert authUser={this.props.authUser} />
           </div>
         </div>
-        <div class="row justify-content-md-center">
+        <div className="row justify-content-md-center">
           <div className="col-md-9" style={{ minWidth: "600px" }}>
             <TaskPlayground
               {...this.props}
@@ -74,7 +74,7 @@ class LessonRoom extends React.Component {
             />
           </div>
         </div>
-        <div class="row justify-content-md-center">
+        <div className="row justify-content-md-center">
           <div className="col-md-9">
             <ExerciseNav
               exercises={this.state.exercises}

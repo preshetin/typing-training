@@ -84,9 +84,11 @@ export const storeOrUpdateLessonLog = (authUser, lessonLog) => {
   }
 
   if (lessonLog.hasOwnProperty('id')) {
+    console.log('saving log. it has id',lessonLog.id, lessonLog, authUser);
     return db.collection('users').doc(authUser.uid).collection('lessonLogs')
       .doc(lessonLog.id).set(lessonLog).then(_ => lessonLog);
   } else {
+    console.log('saving log. it has no id', lessonLog.id, lessonLog, authUser);
     return db.collection('users').doc(authUser.uid).collection('lessonLogs')
       .add(lessonLog).then(ref => {
         lessonLog.id = ref.id;

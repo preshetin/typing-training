@@ -68,10 +68,22 @@ class App extends Component {
           <Route render={ (props) => <Header authUser={this.state.authUser}/> } />
           <div className="container">
             <Switch>            
-              <Route exact path="/" render={ (props) => <LessonsList {...props} lessonLogs={this.state.lessonLogs} lessons={this.state.lessons} /> } />
-              <Route exact path='/lessons/:lessonId' render={(props) => <Lesson {...props} authUser={this.state.authUser} />} />
-              <Route path="/lessons/:lessonId/:exerciseNumber" render={ (props) => <LessonRoom {...props} authUser={this.state.authUser} /> } />
-              <Route path="/profile" render={ (props) => <Profile {...props} authUser={this.state.authUser} /> } />
+              <Route
+                exact path="/"
+                render={ (props) => <LessonsList {...props} lessonLogs={this.state.lessonLogs} lessons={this.state.lessons} /> }
+              />
+              <Route
+                exact path='/lessons/:lessonId'
+                render={(props) => <Lesson {...props} authUser={this.state.authUser} />}
+              />
+              <Route
+                path="/lessons/:lessonId/:exerciseNumber"
+                render={ (props) => <LessonRoom {...props} authUser={this.state.authUser} /> }
+              />
+              <Route
+                path="/profile"
+                render={ (props) => <Profile {...props} authUser={this.state.authUser} /> }
+              />
               <Route path={routes.SIGN_IN} render={ () => <SignInPage /> }  /> } />
               <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />}
               />
