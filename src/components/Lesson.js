@@ -1,6 +1,6 @@
 import React from 'react';
 import LessonComplete from './LessonComplete'; 
-import Api from '../api';
+import { db } from '../firebase';
 import { Redirect } from 'react-router-dom';
 import * as utils from '../utils';
 
@@ -14,9 +14,7 @@ class Lesson extends React.Component {
   }
 
   componentDidMount() {
-    console.log('Lesson componentDidMount');
-    const api = new Api(localStorage.getItem('token'), localStorage.getItem('userId'));
-    api.getLessonExercisesAndLog(this.props.match.params.lessonId, (exercises, lessonLog) => {
+    db.getExercisesAndLog(this.props.authUser, this.props.match.params.lessonId, (exercises, lessonLog) => {
       let st = JSON.parse(JSON.stringify(this.state));
       st.exercises = utils.prepareExercises(exercises);
       st.lessonLog = lessonLog ?

@@ -4,84 +4,60 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LessonRoom from './LessonRoom';
-import Api from '../api';
 import LessonsList from './LessonsList';
 import Lesson from './Lesson';
 import Login from './Login';
+import SignUpPage from './SignUp';
+import SignInPage from './SignIn';
+import * as routes from '../constants/routes';
+import { firebase, db } from '../firebase';
 import Header from './Layouts/Header';
 import IsLoggedInAlert from './IsLoggedInAlert';
 import Footer from './Layouts/Footer';
 import Profile from './Profile';
 import './App.css';
-
 library.add(faCheckCircle);
 
 class App extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      userId: null,
-      //user: { email: "preshetin@gmail.com" }
+      authUser: null,
       lessons: [],
-      lessonLogs: [],
-      isLoggedIn: false
-    }
-
+      lessonLogs: []
+    };
   }
 
-  handleAuthenticate = (authData) => {
-    let st = JSON.parse(JSON.stringify(this.state));
-    st.userId = authData.userId;
-    st.auth = authData;
-    st.isLoggedIn = true;
-    this.setState(st);
-    this.getUserInfo(authData.id, authData.userId);
-  }
-
-  handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    let st = JSON.parse(JSON.stringify(this.state));
-    st.user = null;
-    st.auth = null;
-    st.userId = null;
-    st.isLoggedIn = false;
-    st.lessonLogs = [];
-    this.setState(st);
-    
-  }
   componentDidMount() {
-    if ( ! localStorage.getItem('token')) {
-      return;
-    }
-    const token = localStorage.getItem('token');
-    const userId = localStorage.getItem('userId');
-
-    this.getUserInfo(token, userId);
+    firebase.auth.onAuthStateChanged(authUser => {
+      authUser
+        ? this.setState(() => ({ authUser }))
+        : this.setState(() => ({ authUser: null }));
+      this.handeLessonListMount();
+    });
   }
 
-  getUserInfo(token, userId) {
-    const api = new Api(token, userId);
-    api.getUser().then(res => {
-      let st = JSON.parse(JSON.stringify(this.state));
-      st.user = res.data;
-      st.userId = res.data.id;
-      st.auth = { id: token, userId };
-      st.isLoggedIn = true;
-      this.setState(st);
-    }).catch(err => console.log(err));
-  }
+  //  handleLogout = () => {
+  //    localStorage.removeItem('token');
+  //    localStorage.removeItem('userId');
+  //    let st = JSON.parse(JSON.stringify(this.state));
+  //    st.user = null;
+  //    st.auth = null;
+  //    st.userId = null;
+  //    st.isLoggedIn = false;
+  //    st.lessonLogs = [];
+  //    this.setState(st);
   
   handeLessonListMount = () => {
-    const api = new Api(localStorage.getItem('token'), localStorage.getItem('userId'));
-    api.getLessons().then(res => {
+    db.getLessons().then(lessons => {
       let st = JSON.parse(JSON.stringify(this.state));
-      st.lessons = res.data;
+      st.lessons = lessons;
       this.setState(st);
     }); 
-    api.getUserLessonLogs().then(res => {
+    db.getUserLessonLogs(this.state.authUser).then(lessonLogs => {
       let st = JSON.parse(JSON.stringify(this.state));
-      st.lessonLogs = res.data;
+      st.lessonLogs = lessonLogs;
       this.setState(st);
     });
   }
@@ -90,15 +66,17 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Route render={ (props) => <Header userId={this.state.userId} user={this.state.user} onLogout={this.handleLogout}/> } />
+          <Route render={ (props) => <Header authUser={this.state.authUser}/> } />
           <div className="container">
-            <IsLoggedInAlert isLoggedIn={this.state.isLoggedIn} />
+            <IsLoggedInAlert authUser={this.state.authUser} />
             <Switch>            
-              <Route exact path="/" render={ (props) => <LessonsList {...props} onMount={this.handeLessonListMount} lessonLogs={this.state.lessonLogs} lessons={this.state.lessons} /> } />
-              <Route exact path='/lessons/:lessonId' component={Lesson} />
-              <Route path="/lessons/:lessonId/:exerciseNumber" render={ (props) => <LessonRoom {...props} isLoggedIn={this.state.isLoggedIn} /> } />
-              <Route path="/profile" render={ (props) => <Profile {...props} auth={this.state.auth} /> } />
-              <Route path="/login" render={ (props) => <Login {...props} onAuthenticate={this.handleAuthenticate} /> } />
+              <Route exact path="/" render={ (props) => <LessonsList {...props} lessonLogs={this.state.lessonLogs} lessons={this.state.lessons} /> } />
+              <Route exact path='/lessons/:lessonId' render={(props) => <Lesson {...props} authUser={this.state.authUser} />} />
+              <Route path="/lessons/:lessonId/:exerciseNumber" render={ (props) => <LessonRoom {...props} authUser={this.state.authUser} /> } />
+              <Route path="/profile" render={ (props) => <Profile {...props} authUser={this.state.authUser} /> } />
+              <Route path={routes.SIGN_IN} render={ () => <SignInPage /> }  /> } />
+              <Route exact path={routes.SIGN_UP} component={() => <SignUpPage />}
+              />
             </Switch>
           </div>
         </div>

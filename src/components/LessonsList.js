@@ -1,5 +1,4 @@
 import React from 'react';
-import Api from '../api';
 import LessonCard from './LessonCard';
 
 class LessonsList extends React.Component {
@@ -15,18 +14,13 @@ class LessonsList extends React.Component {
     return 0;
   }
 
-  componentDidMount() {
-    this.props.onMount();
-  }
-
   render() {
     return (
       <div class="row justify-content-md-center">
           <div className="card-deck text-center">
             {this.props.lessons.map(lesson => (
-              <div className="col-md-6" style={{ marginBottom: "25px" }}>
+              <div key={lesson.id} className="col-md-6" style={{ marginBottom: "25px" }}>
                 <LessonCard
-                  key={lesson.id}
                   lesson={lesson}
                   completeRate={this.getCorrectRateForLesson(lesson)}
                 />

@@ -1,6 +1,6 @@
 #container {
 margin: 10px auto;
-width: 688px;
+min-width: 688px;
 }
 #write {
 margin: 0 0 5px;
@@ -57,9 +57,25 @@ list-style: none;
         width: 430px;
         float: left;
         }
+        .index-finger-left, .ring-finger-right {
+          background-color: aliceblue
+        }
+        .pinky-finger-left, .pinky-finger-right {
+          background-color: lightyellow
+        }
+        .index-finger-right, .ring-finger-left  {
+          background-color: linen 
+        }
+        .middle-finger-right, .middle-finger-left {
+          background-color: lightcyan
+        }
+        .home-row {
+          border: 2px solid darkgray !important;
+        }
         .buffer {
           width: 107px !important;
           border: 1px !important;
+     clear: left;       
         }
         .on {
         display: none;

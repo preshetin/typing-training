@@ -1,5 +1,5 @@
 import React from 'react';
-import Api from '../api';
+import { firebase, db } from '../firebase';
 import TaskPlayground from './TaskPlayground';
 import ExerciseNav from './ExerciseNav';
 import * as utils from '../utils';
@@ -15,9 +15,7 @@ class LessonRoom extends React.Component {
   }
 
   componentDidMount() {
-    console.log('LessonRoom componentDidMount');
-    const api = new Api(localStorage.getItem('token'), localStorage.getItem('userId'));
-    api.getLessonExercisesAndLog(this.props.match.params.lessonId, (exercises, lessonLog) => {
+    db.getExercisesAndLog(this.props.authUser, this.props.match.params.lessonId, (exercises, lessonLog) => {
       let st = JSON.parse(JSON.stringify(this.state));
       st.exercises = utils.prepareExercises(exercises);
       st.lessonLog = lessonLog ?
@@ -33,10 +31,9 @@ class LessonRoom extends React.Component {
       correctRate,
       id: this.state.exercises[parseInt(this.props.match.params.exerciseNumber) - 1].id
     }, st.lessonLog);
-    const api = new Api(localStorage.getItem('token'), localStorage.getItem('userId'));
-    api.storeOrUpdateLessonLog(st.lessonLog).then(res => {
+    db.storeOrUpdateLessonLog(this.props.authUser, st.lessonLog).then(lessonLog => {
       let st = JSON.parse(JSON.stringify(this.state));
-      st.lessonLog = res.data;
+      st.lessonLog = lessonLog;
       this.setState(st);
     })
     
@@ -60,7 +57,7 @@ class LessonRoom extends React.Component {
 
     return (
       <div class="row justify-content-md-center">
-        <div className="col-md-9">
+        <div className="col-md-9" style={{ minWidth: "600px" }}>
           <TaskPlayground
             {...this.props}
             task={currentExercise.task}
@@ -75,7 +72,7 @@ class LessonRoom extends React.Component {
             exercises={this.state.exercises}
             activeIndex={parseInt(this.props.match.params.exerciseNumber) - 1}
             lessonLog={this.state.lessonLog}
-            isLoggedIn={this.props.isLoggedIn}
+            isLoggedIn={this.props.authUser ? true : false}
           />
         </div>
       </div>
