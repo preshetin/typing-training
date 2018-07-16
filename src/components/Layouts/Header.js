@@ -8,12 +8,23 @@ var hexcase=0;function hex_md5(a){return rstr2hex(rstr_md5(str2rstr_utf8(a)))}fu
 const Avatar = (props) => {
   let email = props.user.email;
   let  hash = hex_md5(email.trim().toLowerCase()); 
-  const url = '//gravatar.com/avatar/' + hash + '?s=200';
+  let url = '//gravatar.com/avatar/' + hash + '?s=200';
+  
+  if (props.user && props.user.photoURL) {
+    url = props.user.photoURL;
+  }
+
+  let displayName; 
+  if (props.user && props.user.displayName) {
+    displayName = props.user.displayName;
+  } else {
+    displayName = email;
+  }
 
     return (
       <React.Fragment>
         <div className="img-rounded profile-img" style={{ background: `url(${url}) 50% 50% no-repeat`, backgroundSize: "auto 100%"}}></div>
-        {email} <span className="caret"></span>
+        {displayName} <span className="caret"></span>
       </React.Fragment>
     );
 }
@@ -35,9 +46,9 @@ class Header extends React.Component {
       <nav className="my-2 my-md-0 mr-md-3">
         {this.props.authUser && <Link className="p-2" to="/profile">Profile</Link>}
       </nav>
-        {this.props.authUser === null && <Link className="p-2" to={routes.SIGN_IN}>Sign in</Link>}
-        {this.props.authUser && <SignOutButton/>}
+        {this.props.authUser === null && <Link className="p-2" to={routes.SIGN_UP}>Sign in</Link>}
         {avatar} 
+        {this.props.authUser && <SignOutButton/>}
     </div>
     );
   }

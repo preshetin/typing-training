@@ -1,5 +1,19 @@
 import { db } from './firebase';
 
+export const doCreateUser = (id, username, email, displayName = null, photoURL = null) => {
+  const userData = {
+    username,
+    email,
+  };
+  if (displayName) {
+    userData.displayName = displayName;
+  }
+  if (photoURL) {
+    userData.photoURL = photoURL;
+  }
+  return db.collection('users').doc(`${id}`).set(userData);
+}
+
 export const getLessons = () => {
   return db.collection('lessons').get().then(snapshot => {
     const result = [];

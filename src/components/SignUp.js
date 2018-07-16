@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import facebookButton from './continue-with-facebook.png';
 import {
   Link,
   withRouter,
 } from 'react-router-dom';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
 import * as routes from '../constants/routes';
 
 const SignUpPage = ({ history }) =>
@@ -11,10 +12,7 @@ const SignUpPage = ({ history }) =>
     <h1>SignUp</h1>
     <div>
       <SignupWithFacebook history={history} />
-      <span>or</span>
-      <SignupWithGoogle history={history} />
     </div>
-    <SignUpForm history={history} />
   </div>
     
 const updateByPropertyName = (propertyName, value) => () => ({
@@ -135,14 +133,14 @@ class SignupWithFacebook extends Component {
         const authUser = socialAuthUser.user;
 
         // Create a user in your own accessible Firebase Database too
-        //     db.doCreateUser(authUser.uid, "", authUser.email || "", authUser.displayName, authUser.photoURL)
-        //       .then(() => {
-        //         this.setState(() => ({ ...INITIAL_SOCIAL_STATE }));
-        //         history.push(routes.HOME);
-        //       })
-        //       .catch(error => {
-        //         this.setState(updateByPropertyName('error', error));
-        //       });
+        db.doCreateUser(authUser.uid, "", authUser.email || "", authUser.displayName, authUser.photoURL)
+         .then(() => {
+           this.setState(() => ({ ...INITIAL_SOCIAL_STATE }));
+           history.goBack();
+         })
+         .catch(error => {
+           this.setState(updateByPropertyName('error', error));
+         });
 
       })
       .catch(error => {
@@ -159,7 +157,7 @@ class SignupWithFacebook extends Component {
 
     return (
       <div>
-        <button onClick={this.onClick}>Facebook</button>
+        <a href="#" onClick={this.onClick}> <img src={facebookButton} style={{ width: "260px" }} /></a>
         { error && <p>{error.message}</p> }
       </div>
     );

@@ -12,7 +12,6 @@ import SignInPage from './SignIn';
 import * as routes from '../constants/routes';
 import { firebase, db } from '../firebase';
 import Header from './Layouts/Header';
-import IsLoggedInAlert from './IsLoggedInAlert';
 import Footer from './Layouts/Footer';
 import Profile from './Profile';
 import './App.css';
@@ -68,7 +67,6 @@ class App extends Component {
         <div>
           <Route render={ (props) => <Header authUser={this.state.authUser}/> } />
           <div className="container">
-            <IsLoggedInAlert authUser={this.state.authUser} />
             <Switch>            
               <Route exact path="/" render={ (props) => <LessonsList {...props} lessonLogs={this.state.lessonLogs} lessons={this.state.lessons} /> } />
               <Route exact path='/lessons/:lessonId' render={(props) => <Lesson {...props} authUser={this.state.authUser} />} />
