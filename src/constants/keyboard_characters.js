@@ -59,4 +59,5 @@ const CHARS = {
   slash: { en: "/", ru: "/", fingerType: TYPE_PINKY, hand: HAND_RIGHT }
 };
 
+// module.exports = CHARS;
 export default CHARS; 
