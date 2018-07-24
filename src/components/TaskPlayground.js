@@ -95,6 +95,7 @@ class TaskPlayground extends React.Component {
     if (this.props.intro_text && ! this.state.introPassed) {
       return <ExerciseIntro
         intro_text={this.props.intro_text}
+        intro_keyboard={this.props.exercise.intro_keyboard}
         onIntroFinish={this.handleIntroFinish}
         />;
     }

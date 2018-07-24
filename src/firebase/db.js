@@ -11,10 +11,12 @@ export const doCreateUser = (id, username, email, displayName = null, photoURL =
   if (photoURL) {
     userData.photoURL = photoURL;
   }
+  console.log('db', 'doCreateUser');
   return db.collection('users').doc(`${id}`).set(userData);
 }
 
 export const getLessons = () => {
+  console.log('db', 'getLessons');
   return db.collection('lessons').get().then(snapshot => {
     const result = [];
     snapshot.forEach(doc => {
@@ -30,6 +32,7 @@ export const getUserLessonLogs = authUser => {
   if (authUser === null) {
     return Promise.resolve([]);
   }
+  console.log('db', 'getUserLessonLogs');
   return db.collection('users').doc(authUser.uid)
     .collection('lessonLogs').get().then(snapshot => {
     const result = [];
@@ -41,6 +44,7 @@ export const getUserLessonLogs = authUser => {
 }
 
 export const getExercisesAndLog = (authUser, lessonId, cb) => {
+  console.log('db', 'getExercisesAndLog');
   const exP = db.collection('lessons').doc(`${lessonId}`)
     .collection('exercises').orderBy("sort", "asc").get()
     .then(snapshot => {

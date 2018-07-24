@@ -68,6 +68,7 @@ class LessonRoom extends React.Component {
             <TaskPlayground
               {...this.props}
               task={currentExercise.task}
+              exercise={currentExercise}
               intro_text={currentExercise.intro_text}
               onSaveLog={this.handleSaveLog} 
               onNext={this.prepareNextExercise}

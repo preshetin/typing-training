@@ -91,4 +91,8 @@ const Keyboard = ( props ) =>  {
   );
 }
 
+Keyboard.defaultProps = {
+  lang: "ru"
+};
+
 export default Keyboard; 

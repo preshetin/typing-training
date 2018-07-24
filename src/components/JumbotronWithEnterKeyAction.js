@@ -34,6 +34,7 @@ class JumbotronWithEnterKeyAction extends React.Component {
       <div className="jumbotron text-center">
         <h1>{this.props.title}</h1>
         <p className="lead">{this.props.text}</p>
+        {this.props.children}
         {secondaryButton}
         &nbsp;
         <button className="btn btn-lg btn-primary"
