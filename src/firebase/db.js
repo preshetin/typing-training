@@ -50,6 +50,8 @@ export const getExercisesAndLog = (authUser, lessonId, cb) => {
           id: doc.id,
           title: doc.data().title,
           task: doc.data().task,
+          intro_text: doc.data().intro_text,
+          intro_keyboard: doc.data().intro_keyboard,
           sort: doc.data().sort
         });
       });

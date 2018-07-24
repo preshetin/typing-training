@@ -1,5 +1,6 @@
 import React from 'react';
 import TypingStrings from './TypingStrings';
+import ExerciseIntro from './ExerciseIntro';
 import TaskResult from './TaskResult';
 import Keyboard from './Keyboard';
 import { isExercisePassed, correctRate, exerciseIsFinished, getCharByGlobalIndex, getArrayIndexByGlobalIndex, getStringIndexByGlobalIndex } from '../arrayConverter.js';
@@ -10,7 +11,8 @@ class TaskPlayground extends React.Component {
     this.state = {
       chars: [],
       currentIndex: 0,
-      currentSymbol: ""
+      currentSymbol: "",
+      introPassed: false
     };
   }
 
@@ -79,9 +81,22 @@ class TaskPlayground extends React.Component {
     this.setState(st);
   }
 
+  handleIntroFinish = () => {
+    let st = JSON.parse(JSON.stringify(this.state));
+    st.introPassed = true;
+    this.setState(st);
+  }
+
   render() {
     if (this.state.chars.length === 0) {
       return "Loading...";
+    }
+
+    if (this.props.intro_text && ! this.state.introPassed) {
+      return <ExerciseIntro
+        intro_text={this.props.intro_text}
+        onIntroFinish={this.handleIntroFinish}
+        />;
     }
     
     if (exerciseIsFinished(this.state.chars, this.state.currentIndex)) {

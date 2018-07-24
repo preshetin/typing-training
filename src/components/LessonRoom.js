@@ -68,8 +68,10 @@ class LessonRoom extends React.Component {
             <TaskPlayground
               {...this.props}
               task={currentExercise.task}
+              intro_text={currentExercise.intro_text}
               onSaveLog={this.handleSaveLog} 
               onNext={this.prepareNextExercise}
+              key={currentExercise.id}
               isLast={this.state.exercises[this.state.exercises.length - 1].id === currentExercise.id}
             />
           </div>
@@ -80,6 +82,7 @@ class LessonRoom extends React.Component {
               exercises={this.state.exercises}
               activeIndex={parseInt(this.props.match.params.exerciseNumber) - 1}
               lessonLog={this.state.lessonLog}
+              lessonId={this.props.match.params.lessonId}
               isLoggedIn={this.props.authUser ? true : false}
             />
           </div>
