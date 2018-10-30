@@ -11,6 +11,7 @@ import SignUpPage from './SignUp';
 import SignInPage from './SignIn';
 import * as routes from '../constants/routes';
 import { firebase, db } from '../firebase';
+import Landing from './Landing';
 import Header from './Layouts/Header';
 import Footer from './Layouts/Footer';
 import Profile from './Profile';
@@ -70,6 +71,10 @@ class App extends Component {
             <Switch>            
               <Route
                 exact path="/"
+                component={Landing}
+              />
+              <Route
+                exact path="/lessons"
                 render={ (props) => <LessonsList {...props} lessonLogs={this.state.lessonLogs} lessons={this.state.lessons} /> }
               />
               <Route
