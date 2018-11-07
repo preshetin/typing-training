@@ -20,7 +20,7 @@ const LessonComplete = props => {
       </ul>
       <Link className="btn btn-lg btn-outline-primary" to={`/lessons/${props.match.params.lessonId}/1`} >Repeat lesson</Link> 
       &nbsp;
-      <Link className="btn btn-lg btn-primary" to={`/`} >Back to Lessons ⏎</Link> 
+      <Link className="btn btn-lg btn-primary" to={`/lessons`} >Back to Lessons ⏎</Link> 
     </div>
   );  
 }
