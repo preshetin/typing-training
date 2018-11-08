@@ -59,6 +59,13 @@ class LessonRoom extends React.Component {
     return (
       <div>
         <div className="row justify-content-md-center">
+          <div className="col-md-9" >
+            <h2>
+              {currentExercise.title}	
+            </h2> 
+          </div>
+        </div>
+        <div className="row justify-content-md-center">
           <div className="col-md-12" >
               <IsLoggedInAlert authUser={this.props.authUser} />
           </div>
